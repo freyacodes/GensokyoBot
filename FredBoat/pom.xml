@@ -34,7 +34,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <start-class>fredboat.FredBoat</start-class>
+        <start-class>com.frederikam.gensokyobot.FredBoat</start-class>
     </properties>
     <dependencies>
         <dependency>
@@ -53,11 +53,6 @@
             <version>1.0.3</version>
         </dependency>
         <dependency>
-            <groupId>frederikam</groupId>
-            <artifactId>JCA</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
@@ -66,11 +61,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.5.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -88,65 +78,9 @@
             <version>3.5</version>
         </dependency>
         <dependency>
-            <groupId>com.sparkjava</groupId>
-            <artifactId>spark-core</artifactId>
-            <version>2.5.4</version>
-        </dependency>
-        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.18</version>
-        </dependency>
-        <!-- provides a webclient which we use to get around cloudflare protection -->
-        <dependency>
-            <groupId>net.sourceforge.htmlunit</groupId>
-            <artifactId>htmlunit</artifactId>
-            <version>2.25</version>
-            <exclusions>
-                <!-- exclude a transient dependency that clashes with one required by spark -->
-                <exclusion>
-                    <groupId>org.eclipse.jetty.websocket</groupId>
-                    <artifactId>websocket-client</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Postgres/Hibernate/OAuth2 stuff -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.2.9.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>5.2.9.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>5.2.9.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>4.3.7.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.0.0-M3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.54</version>
         </dependency>
     </dependencies>
     <repositories>
@@ -266,7 +200,7 @@
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>fredboat.FredBoat</mainClass>
+                                    <mainClass>com.frederikam.gensokyobot.FredBoat</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

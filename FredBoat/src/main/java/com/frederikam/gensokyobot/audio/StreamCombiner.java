@@ -16,7 +16,7 @@ public class StreamCombiner extends Thread {
     private static final Logger log = LoggerFactory.getLogger(StreamCombiner.class);
 
     private final String streamIdentifier;
-    private static final int INTERVAL_MILLIS = 18; // 18 millis
+    private static final int INTERVAL_MILLIS = 16; // 16 millis
     private AudioTrack track;
     private AudioPlayer player;
     private ArrayList<Subscriber> subscribers = new ArrayList<>();

@@ -24,6 +24,7 @@ public class StreamCombiner extends Thread {
     public StreamCombiner(String streamIdentifier) {
         this.streamIdentifier = streamIdentifier;
         player = GuildPlayer.audioPlayerManager.createPlayer();
+        player.checkCleanup(Long.MAX_VALUE); //No thanks
 
         setDaemon(true);
 
@@ -95,13 +96,14 @@ public class StreamCombiner extends Thread {
         return total[0] / subscribers.size();
     }
 
-    public Subscriber subscribe() {
+    Subscriber subscribe() {
         Subscriber sub = new Subscriber(this);
         subscribers.add(sub);
+
         return sub;
     }
 
-    public void unsubscribe(Subscriber sub) {
+    void unsubscribe(Subscriber sub) {
         subscribers.remove(sub);
         sub.connected = false;
     }

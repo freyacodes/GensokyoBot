@@ -25,9 +25,7 @@
 
 package com.frederikam.gensokyobot;
 
-import com.frederikam.gensokyobot.util.DiscordUtil;
 import com.frederikam.gensokyobot.util.DistributionEnum;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +37,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -55,41 +51,11 @@ public class Config {
     public static int HIKARI_TIMEOUT_MILLISECONDS = 10000;
 
     private final DistributionEnum distribution;
-    private final String botToken;
-    private String oauthSecret;
-    private final String jdbcUrl;
-    private final int hikariPoolSize;
-    private final int numShards;
-    private String mashapeKey;
-    private String malUser;
-    private String malPassword;
-    private String imgurClientId;
-    private int scope;
-    private List<String> googleKeys = new ArrayList<>();
-    private final String[] lavaplayerNodes;
-    private final boolean lavaplayerNodesEnabled;
-    private String carbonKey;
-    private String cbUser;
-    private String cbKey;
-    private String prefix = DEFAULT_PREFIX;
-    private boolean restServerEnabled = true;
-    private List<String> adminIds = new ArrayList<>();
-
-    //testing related stuff
-    private String testBotToken;
-    private String testChannelId;
-
-    // SSH tunnel stuff
-    private final boolean useSshTunnel;
-    private final String sshHost; //Eg localhost:22
-    private final String sshUser; //Eg fredboat
-    private final String sshPrivateKeyFile;
-    private final int forwardToPort; //port where the remote database is listening, postgres default: 5432
+    private String prefix;
 
     @SuppressWarnings("unchecked")
-    public Config(File credentialsFile, File configFile, int scope) {
+    public Config(File credentialsFile, File configFile) {
         try {
-            this.scope = scope;
             Yaml yaml = new Yaml();
             String credsFileStr = FileUtils.readFileToString(credentialsFile, "UTF-8");
             String configFileStr = FileUtils.readFileToString(configFile, "UTF-8");
@@ -104,100 +70,25 @@ public class Config {
 
 
             // Determine distribution
-            if ((boolean) config.getOrDefault("patron", false)) {
-                distribution = DistributionEnum.PATRON;
-            } else if ((boolean) config.getOrDefault("development", false)) {//Determine distribution
+            if ((boolean) config.getOrDefault("development", false)) {//Determine distribution
                 distribution = DistributionEnum.DEVELOPMENT;
             } else {
-                distribution = DiscordUtil.isMainBot(this) ? DistributionEnum.MAIN : DistributionEnum.MUSIC;
+                distribution = DistributionEnum.MUSIC;
             }
 
             log.info("Determined distribution: " + distribution);
 
-            prefix = (String) config.getOrDefault("prefix", prefix);
-            restServerEnabled = (boolean) config.getOrDefault("restServerEnabled", restServerEnabled);
+            prefix = (String) config.getOrDefault("prefix", DEFAULT_PREFIX);
 
-            Object admins = config.get("admins");
-            if (admins instanceof List) {
-                ((List) admins).forEach((Object str) -> adminIds.add(str + ""));
-            } else if (admins instanceof String) {
-                adminIds.add(admins + "");
-            }
-
-            log.info("Using prefix: " + prefix);
-
-            mashapeKey = (String) creds.getOrDefault("mashapeKey", "");
-            malUser = (String) creds.getOrDefault("malUser", "");
-            malPassword = (String) creds.getOrDefault("malPassword", "");
-            carbonKey = (String) creds.getOrDefault("carbonKey", "");
-            cbUser = (String) creds.getOrDefault("cbUser", "");
-            cbKey = (String) creds.getOrDefault("cbKey", "");
-            Map<String, String> token = (Map) creds.get("token");
-            if (token != null) {
-                botToken = token.getOrDefault(distribution.getId(), "");
-            } else botToken = "";
-
-
-            if (creds.containsKey("oauthSecret")) {
-                Map<String, Object> oas = (Map) creds.get("oauthSecret");
-                oauthSecret = (String) oas.getOrDefault(distribution.getId(), "");
-            }
-            jdbcUrl = (String) creds.getOrDefault("jdbcUrl", "");
-
-            Object gkeys = creds.get("googleServerKeys");
-            if (gkeys instanceof List) {
-                ((List) gkeys).forEach((Object str) -> googleKeys.add((String) str));
-            } else if (gkeys instanceof String) {
-                googleKeys.add((String) gkeys);
-            } else {
-                log.warn("No google API keys found. Some commands may not work, check the documentation.");
-            }
-
-            List<String> nodesArray = (List) creds.get("lavaplayerNodes");
-            if(nodesArray != null) {
-                lavaplayerNodesEnabled = true;
-                log.info("Using lavaplayer nodes");
-                lavaplayerNodes = nodesArray.toArray(new String[nodesArray.size()]);
-            } else {
-                lavaplayerNodesEnabled = false;
-                lavaplayerNodes = new String[0];
-                log.info("Not using lavaplayer nodes. Audio playback will be processed locally.");
-            }
-
-            if(getDistribution() == DistributionEnum.DEVELOPMENT) {
-                log.info("Development distribution; forcing 2 shards");
-                numShards = 2;
-            } else {
-                numShards = DiscordUtil.getRecommendedShardCount(getBotToken());
-                log.info("Discord recommends " + numShards + " shard(s)");
-            }
-
-            // hikariPoolSize = numShards * 2;
-            //more database connections don't help with performance, so use a value based on available cores
-            //http://www.dailymotion.com/video/x2s8uec_oltp-performance-concurrent-mid-tier-connections_tech
-            hikariPoolSize = Runtime.getRuntime().availableProcessors() * 2;
-            log.info("Hikari max pool size set to " + hikariPoolSize);
-
-            imgurClientId = (String) creds.getOrDefault("imgurClientId", "");
-
-            testBotToken = (String) creds.getOrDefault("testToken", "");
-            testChannelId = creds.getOrDefault("testChannelId", "") + "";
-
-            useSshTunnel = (boolean) creds.getOrDefault("useSshTunnel", false);
-            sshHost = (String) creds.getOrDefault("sshHost", "localhost:22");
-            sshUser = (String) creds.getOrDefault("sshUser", "fredboat");
-            sshPrivateKeyFile = (String) creds.getOrDefault("sshPrivateKeyFile", "database.ppk");
-            forwardToPort = (int) creds.getOrDefault("forwardToPort", 5432);
-        } catch (IOException | UnirestException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void loadDefaultConfig(int scope) throws IOException {
+    static void loadDefaultConfig(int scope) throws IOException {
         Config.CONFIG = new Config(
                 loadConfigFile("credentials"),
-                loadConfigFile("config"),
-                scope
+                loadConfigFile("config")
         );
     }
 
@@ -236,115 +127,11 @@ public class Config {
         return yamlFile;
     }
 
-    public String getRandomGoogleKey() {
-        return getGoogleKeys().get((int) Math.floor(Math.random() * getGoogleKeys().size()));
-    }
-
     public DistributionEnum getDistribution() {
         return distribution;
     }
 
-    String getBotToken() {
-        return botToken;
-    }
-
-    String getOauthSecret() {
-        return oauthSecret;
-    }
-
-    String getJdbcUrl() {
-        return jdbcUrl;
-    }
-
-    public int getHikariPoolSize() {
-        return hikariPoolSize;
-    }
-
-    public int getNumShards() {
-        return numShards;
-    }
-
-    public String getMashapeKey() {
-        return mashapeKey;
-    }
-
-    public String getMalUser() {
-        return malUser;
-    }
-
-    public String getMalPassword() {
-        return malPassword;
-    }
-
-    public String getImgurClientId() {
-        return imgurClientId;
-    }
-
-    public int getScope() {
-        return scope;
-    }
-
-    public List<String> getGoogleKeys() {
-        return googleKeys;
-    }
-
-    public String[] getLavaplayerNodes() {
-        return lavaplayerNodes;
-    }
-
-    public boolean isLavaplayerNodesEnabled() {
-        return lavaplayerNodesEnabled;
-    }
-
-    public String getCarbonKey() {
-        return carbonKey;
-    }
-
-    public String getCbUser() {
-        return cbUser;
-    }
-
-    public String getCbKey() {
-        return cbKey;
-    }
-
     public String getPrefix() {
         return prefix;
-    }
-
-    public boolean isRestServerEnabled() {
-        return restServerEnabled;
-    }
-
-    public List<String> getAdminIds() {
-        return adminIds;
-    }
-
-    public String getTestBotToken() {
-        return testBotToken;
-    }
-
-    public String getTestChannelId() {
-        return testChannelId;
-    }
-
-    public boolean isUseSshTunnel() {
-        return useSshTunnel;
-    }
-
-    public String getSshHost() {
-        return sshHost;
-    }
-
-    public String getSshUser() {
-        return sshUser;
-    }
-
-    public String getSshPrivateKeyFile() {
-        return sshPrivateKeyFile;
-    }
-
-    public int getForwardToPort() {
-        return forwardToPort;
     }
 }

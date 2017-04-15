@@ -115,6 +115,7 @@ public class EventListenerBoat extends AbstractEventListener {
             return;
         }
 
+        //TODO
         event.getChannel().sendMessage(I18n.DEFAULT.getProps().getString("helpDM")).queue();
         lastUserToReceiveHelp = event.getAuthor();
     }

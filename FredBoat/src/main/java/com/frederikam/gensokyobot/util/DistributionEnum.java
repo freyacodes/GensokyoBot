@@ -26,10 +26,8 @@
 package com.frederikam.gensokyobot.util;
 
 public enum DistributionEnum {
-    MAIN("production", false),
     MUSIC("music", false),
-    DEVELOPMENT("beta", false),
-    PATRON("patron", true);
+    DEVELOPMENT("beta", false);
 
     private final String id;
     private final boolean volumeSupported;

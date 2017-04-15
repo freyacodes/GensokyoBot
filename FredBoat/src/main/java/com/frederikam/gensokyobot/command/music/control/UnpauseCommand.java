@@ -43,9 +43,7 @@ public class UnpauseCommand extends Command implements IMusicCommand {
     public void onInvoke(Guild guild, TextChannel channel, Member invoker, Message message, String[] args) {
         GuildPlayer player = PlayerRegistry.get(guild);
         player.setCurrentTC(channel);
-        if (player.isQueueEmpty()) {
-            channel.sendMessage(I18n.get(guild).getString("unpauseQueueEmpty")).queue();
-        } else if (!player.isPaused()) {
+         if (!player.isPaused()) {
             channel.sendMessage(I18n.get(guild).getString("unpausePlayerNotPaused")).queue();
         } else if (player.getHumanUsersInVC().isEmpty() && player.isPaused() && guild.getAudioManager().isConnected()) {
             channel.sendMessage(I18n.get(guild).getString("unpauseNoUsers")).queue();
@@ -53,11 +51,11 @@ public class UnpauseCommand extends Command implements IMusicCommand {
             // When we just want to continue playing, but the user is not in a VC
             JOIN_COMMAND.onInvoke(guild, channel, invoker, message, new String[0]);
             if(guild.getAudioManager().isConnected() || guild.getAudioManager().isAttemptingToConnect()) {
-                player.play();
+                player.setPause(false);
                 channel.sendMessage(I18n.get(guild).getString("unpauseSuccess")).queue();
             }
         } else {
-            player.play();
+            player.setPause(false);
             channel.sendMessage(I18n.get(guild).getString("unpauseSuccess")).queue();
         }
     }

@@ -5,13 +5,13 @@ import com.frederikam.gensokyobot.command.admin.CompileCommand;
 import com.frederikam.gensokyobot.command.admin.EvalCommand;
 import com.frederikam.gensokyobot.command.admin.ExitCommand;
 import com.frederikam.gensokyobot.command.admin.ReviveCommand;
-import com.frederikam.gensokyobot.command.admin.TestCommand;
 import com.frederikam.gensokyobot.command.admin.UpdateCommand;
 import com.frederikam.gensokyobot.command.maintenance.StatsCommand;
 import com.frederikam.gensokyobot.command.music.control.JoinCommand;
 import com.frederikam.gensokyobot.command.music.control.LeaveCommand;
 import com.frederikam.gensokyobot.command.music.control.PauseCommand;
 import com.frederikam.gensokyobot.command.music.control.UnpauseCommand;
+import com.frederikam.gensokyobot.command.music.info.NowplayingCommand;
 import com.frederikam.gensokyobot.command.util.HelpCommand;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 
@@ -27,6 +27,8 @@ public class CommandInitializer {
         CommandRegistry.registerCommand("pause", new PauseCommand());
         CommandRegistry.registerCommand("unpause", new UnpauseCommand());
         CommandRegistry.registerCommand("stats", new StatsCommand());
+        CommandRegistry.registerCommand("np", new NowplayingCommand());
+        CommandRegistry.registerAlias("np", "nowplaying");
 
         //Admin commands
         CommandRegistry.registerCommand("restart", new BotRestartCommand());
@@ -34,7 +36,6 @@ public class CommandInitializer {
         CommandRegistry.registerCommand("eval", new EvalCommand());
         CommandRegistry.registerCommand("exit", new ExitCommand());
         CommandRegistry.registerCommand("revive", new ReviveCommand());
-        CommandRegistry.registerCommand("test", new TestCommand());
         CommandRegistry.registerCommand("update", new UpdateCommand());
     }
 

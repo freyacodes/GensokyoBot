@@ -132,7 +132,7 @@ public class EventListenerBoat extends AbstractEventListener {
         if (player.getHumanUsersInVC().isEmpty()
                 && player.getUserCurrentVoiceChannel(event.getGuild().getSelfMember()) == event.getChannelLeft()
                 && !player.isPaused()) {
-            player.pause();
+            player.setPause(true);
             player.getActiveTextChannel().sendMessage(I18n.get(event.getGuild()).getString("eventUsersLeftVC")).queue();
         }
     }

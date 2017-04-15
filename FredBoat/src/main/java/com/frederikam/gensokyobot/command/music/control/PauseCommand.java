@@ -44,12 +44,10 @@ public class PauseCommand extends Command implements IMusicCommand {
     public void onInvoke(Guild guild, TextChannel channel, Member invoker, Message message, String[] args) {
         GuildPlayer player = PlayerRegistry.get(guild);
         player.setCurrentTC(channel);
-        if (player.isQueueEmpty()) {
-            channel.sendMessage(I18n.get(guild).getString("playQueueEmpty")).queue();
-        } else if (player.isPaused()) {
+        if (player.isPaused()) {
             channel.sendMessage(I18n.get(guild).getString("pauseAlreadyPaused")).queue();
         } else {
-            player.pause();
+            player.setPause(true);
             channel.sendMessage(MessageFormat.format(I18n.get(guild).getString("pauseSuccess"), Config.CONFIG.getPrefix())).queue();
         }
     }

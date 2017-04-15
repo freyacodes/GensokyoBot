@@ -27,13 +27,11 @@ package com.frederikam.gensokyobot.command.util;
 
 import com.frederikam.gensokyobot.Config;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
+import com.frederikam.gensokyobot.commandmeta.abs.Command;
 import com.frederikam.gensokyobot.commandmeta.abs.ICommandOwnerRestricted;
 import com.frederikam.gensokyobot.commandmeta.abs.IMusicBackupCommand;
-import com.frederikam.gensokyobot.feature.I18n;
-import fredboat.command.fun.TalkCommand;
-import com.frederikam.gensokyobot.command.music.control.SelectCommand;
-import com.frederikam.gensokyobot.commandmeta.abs.Command;
 import com.frederikam.gensokyobot.commandmeta.abs.IUtilCommand;
+import com.frederikam.gensokyobot.feature.I18n;
 import com.frederikam.gensokyobot.util.TextUtils;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -83,10 +81,6 @@ public class HelpCommand extends Command implements IMusicBackupCommand, IUtilCo
         //some special needs
         //to display helpful information on some commands: thirdParam = {2} in the language resources
         String thirdParam = "";
-        if (command instanceof TalkCommand)
-            thirdParam = guild.getSelfMember().getEffectiveName();
-        else if (command instanceof SelectCommand)
-            thirdParam = "play";
 
         return MessageFormat.format(helpStr, Config.CONFIG.getPrefix(), commandOrAlias, thirdParam);
     }

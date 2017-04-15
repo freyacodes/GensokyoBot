@@ -26,23 +26,19 @@
 package com.frederikam.gensokyobot.commandmeta;
 
 
-import com.frederikam.gensokyobot.Config;
 import com.frederikam.gensokyobot.commandmeta.abs.Command;
 import com.frederikam.gensokyobot.commandmeta.abs.ICommandAdminRestricted;
 import com.frederikam.gensokyobot.commandmeta.abs.ICommandOwnerRestricted;
-import com.frederikam.gensokyobot.commandmeta.abs.IMusicBackupCommand;
 import com.frederikam.gensokyobot.commandmeta.abs.IMusicCommand;
 import com.frederikam.gensokyobot.feature.I18n;
 import com.frederikam.gensokyobot.util.BotConstants;
 import com.frederikam.gensokyobot.util.DiscordUtil;
-import com.frederikam.gensokyobot.util.DistributionEnum;
 import com.frederikam.gensokyobot.util.RestActionScheduler;
 import com.frederikam.gensokyobot.util.TextUtils;
-import fredboat.commandmeta.abs.*;
-import fredboat.util.*;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.utils.PermissionUtil;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
@@ -58,38 +54,6 @@ public class CommandManager {
         String[] args = commandToArguments(message.getRawContent());
         commandsExecuted++;
 
-        if (invoked instanceof IMusicBackupCommand
-                && guild.getJDA().getSelfUser().getId().equals(BotConstants.MUSIC_BOT_ID)
-                && DiscordUtil.isMainBotPresent(guild)) {
-            log.info("Ignored command because main bot is present and I am the public music FredBoat");
-            return;
-        }
-
-        if (guild.getJDA().getSelfUser().getId().equals(BotConstants.PATRON_BOT_ID)
-                && Config.CONFIG.getDistribution() == DistributionEnum.PATRON
-                && guild.getId().equals(BotConstants.FREDBOAT_HANGOUT_ID)) {
-            log.info("Ignored command because patron bot is not allowed in FredBoatHangout");
-            return;
-        }
-
-        if (Config.CONFIG.getDistribution() == DistributionEnum.MUSIC
-                && DiscordUtil.isPatronBotPresentAndOnline(guild)
-                && guild.getMemberById(BotConstants.PATRON_BOT_ID) != null
-                && PermissionUtil.checkPermission(channel, guild.getMemberById(BotConstants.PATRON_BOT_ID), Permission.MESSAGE_WRITE, Permission.MESSAGE_READ)
-                && Config.CONFIG.getPrefix().equals(Config.DEFAULT_PREFIX)
-                && !guild.getId().equals(BotConstants.FREDBOAT_HANGOUT_ID)) {
-            log.info("Ignored command because patron bot is able to user that channel");
-            return;
-        }
-
-        if (invoked instanceof IMusicCommand && !PermissionUtil.checkPermission(
-                channel,
-                channel.getGuild().getSelfMember(),
-                Permission.MESSAGE_WRITE)) {
-            log.debug("Ignored command because it was a music command, and this bot cannot write in that channel");
-            return;
-        }
-
         if (invoked instanceof ICommandOwnerRestricted) {
             //Check if invoker is actually the owner
             if (!DiscordUtil.isUserBotOwner(invoker.getUser())) {
@@ -99,8 +63,8 @@ public class CommandManager {
         }
 
         if (invoked instanceof ICommandAdminRestricted) {
-            //only admins and the bot owner can execute these
-            if (!isAdmin(invoker) && !DiscordUtil.isUserBotOwner(invoker.getUser())) {
+            //Only the bot owner can execute these
+            if (!DiscordUtil.isUserBotOwner(invoker.getUser())) {
                 channel.sendMessage(TextUtils.prefaceWithName(invoker, I18n.get(guild).getString("cmdAccessDenied"))).queue();
                 return;
             }
@@ -132,23 +96,6 @@ public class CommandManager {
         } catch (Exception e) {
             TextUtils.handleException(e, channel, invoker);
         }
-
-    }
-
-    /**
-     * returns true if the member is or holds a role defined as admin in the configuration file
-     */
-    private static boolean isAdmin(Member invoker) {
-        boolean admin = false;
-        for (String id : Config.CONFIG.getAdminIds()) {
-            Role r = invoker.getGuild().getRoleById(id);
-            if (invoker.getUser().getId().equals(id)
-                    || (r != null && invoker.getRoles().contains(r))) {
-                admin = true;
-                break;
-            }
-        }
-        return admin;
     }
 
     private static String[] commandToArguments(String cmd) {

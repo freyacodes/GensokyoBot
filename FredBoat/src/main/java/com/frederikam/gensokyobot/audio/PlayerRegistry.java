@@ -92,7 +92,6 @@ public class PlayerRegistry {
     public static void destroyPlayer(JDA jda, String g) {
         GuildPlayer player = getExisting(jda, g);
         if (player != null) {
-            player.destroy();
             remove(g);
         }
     }

@@ -168,8 +168,12 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
         return isPaused;
     }
 
-    public void setPaused(boolean paused) {
+    public void setPause(boolean paused) {
         isPaused = paused;
+
+        if(paused) {
+            subscriber.unsubscribe();
+        }
     }
 
     @Override
@@ -204,4 +208,8 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
         return sc;
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        subscriber.unsubscribe();
+    }
 }

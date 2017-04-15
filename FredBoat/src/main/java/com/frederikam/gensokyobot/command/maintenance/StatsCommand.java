@@ -28,12 +28,11 @@ package com.frederikam.gensokyobot.command.maintenance;
 import com.frederikam.gensokyobot.Config;
 import com.frederikam.gensokyobot.FredBoat;
 import com.frederikam.gensokyobot.audio.PlayerRegistry;
+import com.frederikam.gensokyobot.commandmeta.CommandManager;
 import com.frederikam.gensokyobot.commandmeta.abs.Command;
 import com.frederikam.gensokyobot.commandmeta.abs.IMaintenanceCommand;
 import com.frederikam.gensokyobot.feature.I18n;
-import com.frederikam.gensokyobot.util.DiscordUtil;
 import com.frederikam.gensokyobot.util.TextUtils;
-import com.frederikam.gensokyobot.commandmeta.CommandManager;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -69,9 +68,8 @@ public class StatsCommand extends Command implements IMaintenanceCommand {
         str = str + "\n----------\n\n";
 
         str = str + "Sharding:                       " + FredBoat.getInstance(guild.getJDA()).getShardInfo().getShardString() + "\n";
-        if(DiscordUtil.isMusicBot()){
-            str = str + "Players playing:                " + PlayerRegistry.getPlayingPlayers().size() + "\n";
-        }
+        str = str + "Players playing:                " + PlayerRegistry.getPlayingPlayers().size() + "\n";
+
         str = str + "Known servers:                  " + FredBoat.getAllGuilds().size() + "\n";
         str = str + "Known users in servers:         " + FredBoat.getAllUsersAsMap().size() + "\n";
         str = str + "Distribution:                   " + Config.CONFIG.getDistribution() + "\n";

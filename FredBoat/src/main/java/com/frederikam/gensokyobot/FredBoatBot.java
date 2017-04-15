@@ -56,7 +56,7 @@ public class FredBoatBot extends FredBoat {
                 JDABuilder builder = new JDABuilder(AccountType.BOT)
                         .addListener(new EventLogger("216689009110417408"))
                         .addListener(shardWatchdogListener)
-                        .setToken(Config.CONFIG.getBotToken())
+                        .setToken(Config.CONFIG.getToken())
                         .setBulkDeleteSplittingEnabled(true)
                         .setEnableShutdownHook(false);
 

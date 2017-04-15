@@ -27,12 +27,19 @@ package com.frederikam.gensokyobot.util;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.frederikam.gensokyobot.Config;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.requests.*;
+import net.dv8tion.jda.core.requests.Request;
+import net.dv8tion.jda.core.requests.Requester;
+import net.dv8tion.jda.core.requests.Response;
+import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.core.requests.Route;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,30 +53,6 @@ public class DiscordUtil {
     private static final String USER_AGENT = "FredBoat DiscordBot (https://github.com/Frederikam/FredBoat, 1.0)";
 
     private DiscordUtil() {
-    }
-
-    public static boolean isMainBot() {
-        return isMainBot(Config.CONFIG);
-    }
-
-    public static boolean isMusicBot() {
-        return isMusicBot(Config.CONFIG);
-    }
-
-    public static boolean isSelfBot() {
-        return isSelfBot(Config.CONFIG);
-    }
-
-    public static boolean isMainBot(Config conf) {
-        return (conf.getScope() & 0x100) != 0;
-    }
-
-    public static boolean isMusicBot(Config conf) {
-        return (conf.getScope() & 0x010) != 0;
-    }
-
-    public static boolean isSelfBot(Config conf) {
-        return (conf.getScope() & 0x001) != 0;
     }
 
     public static boolean isUserBotOwner(User user) {

@@ -25,7 +25,6 @@
 
 package com.frederikam.gensokyobot.util;
 
-import com.frederikam.gensokyobot.Config;
 import com.frederikam.gensokyobot.commandmeta.MessagingException;
 import com.frederikam.gensokyobot.feature.I18n;
 import com.mashape.unirest.http.Unirest;
@@ -88,17 +87,9 @@ public class TextUtils {
 
             String filtered = MessageFormat.format(I18n.get(invoker.getGuild()).getString("utilErrorOccurred"), e.toString());
 
-            for (String str : Config.CONFIG.getGoogleKeys()) {
-                filtered = filtered.replace(str, "GOOGLE_SERVER_KEY");
-            }
-
             builder.append(filtered);
         } else {
             String filtered = MessageFormat.format(I18n.DEFAULT.getProps().getString("utilErrorOccurred"), e.toString());
-
-            for (String str : Config.CONFIG.getGoogleKeys()) {
-                filtered = filtered.replace(str, "GOOGLE_SERVER_KEY");
-            }
 
             builder.append(filtered);
         }

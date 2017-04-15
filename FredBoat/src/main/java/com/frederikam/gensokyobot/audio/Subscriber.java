@@ -1,10 +1,14 @@
 package com.frederikam.gensokyobot.audio;
 
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Subscriber {
+
+    private static final Logger log = LoggerFactory.getLogger(Subscriber.class);
 
     private final StreamCombiner streamCombiner;
     private ConcurrentLinkedDeque<AudioFrame> buffer = new ConcurrentLinkedDeque<>();
@@ -19,7 +23,9 @@ public class Subscriber {
     }
 
     public AudioFrame provide() {
-        return buffer.pollLast();
+        log.info(this.toString());
+
+        return buffer.poll();
     }
 
     public int size() {
@@ -32,5 +38,14 @@ public class Subscriber {
 
     public boolean isConnected() {
         return connected;
+    }
+
+    @Override
+    public String toString() {
+        return "Subscriber{" +
+                "streamCombiner=" + streamCombiner +
+                ", bufferSize=" + buffer.size() +
+                ", connected=" + connected +
+                '}';
     }
 }

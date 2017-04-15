@@ -23,6 +23,7 @@ public class StreamCombiner extends Thread {
 
     public StreamCombiner(String streamIdentifier) {
         this.streamIdentifier = streamIdentifier;
+        player = GuildPlayer.audioPlayerManager.createPlayer();
 
         try {
             track = new AudioLoader().loadAsync(streamIdentifier);
@@ -82,6 +83,8 @@ public class StreamCombiner extends Thread {
     }
 
     private int getAverageBufferSize() {
+        if(subscribers.size() == 0) return -1;
+
         final int[] total = {0};
         subscribers.forEach(sub -> total[0] =+ sub.size());
         return total[0] / subscribers.size();
@@ -122,25 +125,33 @@ public class StreamCombiner extends Thread {
         public void trackLoaded(AudioTrack audioTrack) {
             loadedItem = audioTrack;
             log.info("Loaded track " + audioTrack.getInfo().title);
-            this.notify();
+            synchronized (this) {
+                this.notify();
+            }
         }
 
         @Override
         public void playlistLoaded(AudioPlaylist audioPlaylist) {
             log.error("Loaded playlist instead of stream");
-            this.notify();
+            synchronized (this) {
+                this.notify();
+            }
         }
 
         @Override
         public void noMatches() {
             log.error("No matches");
-            this.notify();
+            synchronized (this) {
+                this.notify();
+            }
         }
 
         @Override
         public void loadFailed(FriendlyException e) {
             log.error("Load failed", e);
-            this.notify();
+            synchronized (this) {
+                this.notify();
+            }
         }
     }
 

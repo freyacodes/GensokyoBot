@@ -30,6 +30,10 @@ import com.frederikam.gensokyobot.feature.I18n;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.source.beam.BeamAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.http.HttpAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -55,7 +59,7 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     private TextChannel currentTC;
     private boolean isPaused = false;
     public static AudioPlayerManager audioPlayerManager = initAudioPlayerManager();
-    private StreamCombiner streamCombiner = initGensokyoStreamCombiner();
+    private static StreamCombiner streamCombiner = initGensokyoStreamCombiner();
     private Subscriber subscriber;
     private AudioFrame lastFrame = null;
 
@@ -63,6 +67,7 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     public GuildPlayer(JDA jda, Guild guild) {
         this.jda = jda;
         this.guildId = guild.getId();
+        subscriber = streamCombiner.subscribe();
 
         AudioManager manager = guild.getAudioManager();
         manager.setSendingHandler(this);
@@ -199,7 +204,14 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     }
 
     private static AudioPlayerManager initAudioPlayerManager() {
-        return new DefaultAudioPlayerManager();
+        AudioPlayerManager apm = new DefaultAudioPlayerManager();
+
+        apm.registerSourceManager(new YoutubeAudioSourceManager());
+        apm.registerSourceManager(new TwitchStreamAudioSourceManager());
+        apm.registerSourceManager(new BeamAudioSourceManager());
+        apm.registerSourceManager(new HttpAudioSourceManager());
+
+        return apm;
     }
 
     private static StreamCombiner initGensokyoStreamCombiner() {

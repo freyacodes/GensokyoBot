@@ -25,11 +25,15 @@ public class StreamCombiner extends Thread {
         this.streamIdentifier = streamIdentifier;
         player = GuildPlayer.audioPlayerManager.createPlayer();
 
+        setDaemon(true);
+
         try {
             track = new AudioLoader().loadAsync(streamIdentifier);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        setName("StreamCombiner:" + track.getInfo().title);
     }
 
     @Override
@@ -47,6 +51,7 @@ public class StreamCombiner extends Thread {
                     sleep(1000);
                 } catch (InterruptedException e1) {
                     log.error("Interrupted while sleeping after an exception in the streamer", e);
+                    break;
                 }
             }
         }

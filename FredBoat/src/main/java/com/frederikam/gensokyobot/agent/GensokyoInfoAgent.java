@@ -20,9 +20,14 @@ public class GensokyoInfoAgent extends Thread {
     private static String info = null;
     private static String lastSong = "";
 
+    public GensokyoInfoAgent() {
+        setDaemon(true);
+        setName("GensokyoInfoAgent");
+    }
+
     @Override
     public void run() {
-        log.info("Started shard watchdog");
+        log.info("Started GensokyoInfoAgent");
 
         //noinspection InfiniteLoopStatement
         while (true) {
@@ -35,6 +40,7 @@ public class GensokyoInfoAgent extends Thread {
                     sleep(1000);
                 } catch (InterruptedException e1) {
                     log.error("Interrupted while sleeping after an exception in the agent", e);
+                    break;
                 }
             }
         }
@@ -54,6 +60,8 @@ public class GensokyoInfoAgent extends Thread {
                 for(FredBoat shard : shards) {
                     shard.getJda().getPresence().setGame(new GameImpl(newSong, null, Game.GameType.DEFAULT));
                 }
+
+                log.info("Now playing " + newSong);
             }
 
             lastSong = data.getJSONObject("SONGINFO").getString("TITLE");

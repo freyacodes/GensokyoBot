@@ -76,11 +76,7 @@ public class PlayerRegistry {
     public static List<GuildPlayer> getPlayingPlayers() {
         ArrayList<GuildPlayer> plrs = new ArrayList<>();
 
-        for (GuildPlayer plr : REGISTRY.values()) {
-            if (plr.isPaused()) {
-                plrs.add(plr);
-            }
-        }
+        plrs.addAll(REGISTRY.values());
 
         return plrs;
     }

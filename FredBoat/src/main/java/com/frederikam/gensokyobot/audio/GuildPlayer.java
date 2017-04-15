@@ -57,7 +57,6 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     public final JDA jda;
     private final String guildId;
     private TextChannel currentTC;
-    private boolean isPaused = false;
     public static AudioPlayerManager audioPlayerManager = initAudioPlayerManager();
     private static StreamCombiner streamCombiner = initGensokyoStreamCombiner();
     private Subscriber subscriber;
@@ -167,18 +166,6 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
 
     public TextChannel getCurrentTC() {
         return currentTC;
-    }
-
-    public boolean isPaused() {
-        return isPaused;
-    }
-
-    public void setPause(boolean paused) {
-        isPaused = paused;
-
-        if(paused) {
-            subscriber.unsubscribe();
-        }
     }
 
     @Override

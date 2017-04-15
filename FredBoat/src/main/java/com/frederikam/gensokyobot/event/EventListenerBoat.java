@@ -25,16 +25,14 @@
 package com.frederikam.gensokyobot.event;
 
 import com.frederikam.gensokyobot.Config;
-import com.frederikam.gensokyobot.audio.GuildPlayer;
 import com.frederikam.gensokyobot.audio.PlayerRegistry;
+import com.frederikam.gensokyobot.command.util.HelpCommand;
 import com.frederikam.gensokyobot.commandmeta.CommandManager;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 import com.frederikam.gensokyobot.commandmeta.abs.Command;
-import com.frederikam.gensokyobot.feature.I18n;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
@@ -115,26 +113,8 @@ public class EventListenerBoat extends AbstractEventListener {
             return;
         }
 
-        //TODO
-        event.getChannel().sendMessage(I18n.DEFAULT.getProps().getString("helpDM")).queue();
+        event.getChannel().sendMessage(HelpCommand.getHelpMessage()).queue();
         lastUserToReceiveHelp = event.getAuthor();
-    }
-
-    /* music related */
-    @Override
-    public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
-        GuildPlayer player = PlayerRegistry.getExisting(event.getGuild());
-
-        if (player == null) {
-            return;
-        }
-
-        if (player.getHumanUsersInVC().isEmpty()
-                && player.getUserCurrentVoiceChannel(event.getGuild().getSelfMember()) == event.getChannelLeft()
-                && !player.isPaused()) {
-            player.setPause(true);
-            player.getActiveTextChannel().sendMessage(I18n.get(event.getGuild()).getString("eventUsersLeftVC")).queue();
-        }
     }
 
     @Override

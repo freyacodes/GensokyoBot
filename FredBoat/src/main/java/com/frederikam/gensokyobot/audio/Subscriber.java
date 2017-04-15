@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Subscriber {
 
+    private int i = 0;
+
     private static final Logger log = LoggerFactory.getLogger(Subscriber.class);
 
     private final StreamCombiner streamCombiner;
@@ -23,7 +25,10 @@ public class Subscriber {
     }
 
     public AudioFrame provide() {
-        log.info(this.toString());
+        i++;
+        if(i%(50*60) == 0) {
+            log.debug(this.toString());
+        }
 
         return buffer.poll();
     }

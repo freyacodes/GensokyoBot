@@ -25,6 +25,7 @@
 
 package com.frederikam.gensokyobot;
 
+import com.frederikam.gensokyobot.agent.GensokyoInfoAgent;
 import com.frederikam.gensokyobot.agent.ShardWatchdogAgent;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 import com.frederikam.gensokyobot.commandmeta.init.CommandInitializer;
@@ -134,6 +135,8 @@ public abstract class FredBoat {
         ShardWatchdogAgent shardWatchdogAgent = new ShardWatchdogAgent();
         shardWatchdogAgent.setDaemon(true);
         shardWatchdogAgent.start();
+
+        new GensokyoInfoAgent().start();
     }
 
     private static void initBotShards(EventListener listener) {

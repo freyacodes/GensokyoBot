@@ -47,7 +47,7 @@ public class GensokyoInfoAgent extends Thread {
 
             JSONObject data = XML.toJSONObject(GensokyoInfoAgent.getInfo()).getJSONObject("GENSOKYORADIODATA");
 
-            String newSong = data.getJSONObject("SONGINFO").getString("ARTIST");
+            String newSong = data.getJSONObject("SONGINFO").getString("TITLE");
 
             if (!newSong.equals(lastSong)) {
                 List<FredBoat> shards = FredBoat.getShards();
@@ -56,7 +56,7 @@ public class GensokyoInfoAgent extends Thread {
                 }
             }
 
-            lastSong = data.getJSONObject("SONGINFO").getString("ARTIST");
+            lastSong = data.getJSONObject("SONGINFO").getString("TITLE");
 
             return info;
         } catch (UnirestException e) {

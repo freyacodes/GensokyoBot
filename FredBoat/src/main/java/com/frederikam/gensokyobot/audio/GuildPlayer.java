@@ -30,6 +30,7 @@ import com.frederikam.gensokyobot.feature.I18n;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
@@ -54,6 +55,9 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     private TextChannel currentTC;
     private boolean isPaused = false;
     public static AudioPlayerManager audioPlayerManager = initAudioPlayerManager();
+    private StreamCombiner streamCombiner = initGensokyoStreamCombiner();
+    private Subscriber subscriber;
+    private AudioFrame lastFrame = null;
 
     @SuppressWarnings("LeakingThisInConstructor")
     public GuildPlayer(JDA jda, Guild guild) {
@@ -100,6 +104,7 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
             }
         }
         manager.closeAudioConnection();
+        subscriber.unsubscribe();
     }
 
     /**
@@ -169,14 +174,19 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
 
     @Override
     public boolean canProvide() {
-        //TODO
-        return false;
+        if(!subscriber.isConnected()) {
+            subscriber = streamCombiner.subscribe();
+            return false;
+        }
+
+        lastFrame = subscriber.provide();
+
+        return lastFrame != null;
     }
 
     @Override
     public byte[] provide20MsAudio() {
-        //TODO
-        return new byte[0];
+        return lastFrame.data;
     }
 
     @Override
@@ -185,8 +195,13 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     }
 
     private static AudioPlayerManager initAudioPlayerManager() {
-        AudioPlayerManager apm = new DefaultAudioPlayerManager();
-        return apm;
+        return new DefaultAudioPlayerManager();
+    }
+
+    private static StreamCombiner initGensokyoStreamCombiner() {
+        StreamCombiner sc = new StreamCombiner("https://gensokyoradio.net/GensokyoRadio.m3u");
+        sc.start();
+        return sc;
     }
 
 }

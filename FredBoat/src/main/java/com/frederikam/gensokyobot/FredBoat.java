@@ -26,7 +26,6 @@
 package com.frederikam.gensokyobot;
 
 import com.frederikam.gensokyobot.agent.ShardWatchdogAgent;
-import com.frederikam.gensokyobot.audio.MusicPersistenceHandler;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 import com.frederikam.gensokyobot.commandmeta.init.CommandInitializer;
 import com.frederikam.gensokyobot.event.EventListenerBoat;
@@ -130,15 +129,7 @@ public abstract class FredBoat {
         log.info("Loaded commands, registry size is " + CommandRegistry.getSize());
 
         /* Init JDA */
-
-        if ((Config.CONFIG.getScope() & 0x110) != 0) {
-            initBotShards(listenerBot);
-        }
-
-        if ((Config.CONFIG.getScope() & 0x001) != 0) {
-            log.error("Selfbot support has been removed.");
-            //fbClient = new FredBoatClient();
-        }
+        initBotShards(listenerBot);
 
         ShardWatchdogAgent shardWatchdogAgent = new ShardWatchdogAgent();
         shardWatchdogAgent.setDaemon(true);
@@ -175,19 +166,12 @@ public abstract class FredBoat {
         int ready = numShardsReady.get();
         if (ready == Config.CONFIG.getNumShards()) {
             log.info("All " + ready + " shards are ready.");
-            MusicPersistenceHandler.reloadPlaylists();
         }
     }
 
     //Shutdown hook
     private static final Runnable ON_SHUTDOWN = () -> {
         int code = shutdownCode != UNKNOWN_SHUTDOWN_CODE ? shutdownCode : -1;
-
-        try {
-            MusicPersistenceHandler.handlePreShutdown(code);
-        } catch (Exception e) {
-            log.error("Critical error while handling music persistence.", e);
-        }
 
         for(FredBoat fb : shards) {
             fb.getJda().shutdown(false);

@@ -25,7 +25,9 @@
 
 package com.frederikam.gensokyobot;
 
+import com.frederikam.gensokyobot.util.DiscordUtil;
 import com.frederikam.gensokyobot.util.DistributionEnum;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +49,12 @@ public class Config {
     
     public static Config CONFIG = null;
 
-    public static String DEFAULT_PREFIX = ";;";
-    public static int HIKARI_TIMEOUT_MILLISECONDS = 10000;
+    public static String DEFAULT_PREFIX = "--";
 
     private final DistributionEnum distribution;
     private String prefix;
+    private int numShards;
+    private String token;
 
     @SuppressWarnings("unchecked")
     public Config(File credentialsFile, File configFile) {
@@ -78,9 +81,11 @@ public class Config {
 
             log.info("Determined distribution: " + distribution);
 
+            token = (String) creds.get("token");
+            numShards = DiscordUtil.getRecommendedShardCount(token);
             prefix = (String) config.getOrDefault("prefix", DEFAULT_PREFIX);
 
-        } catch (IOException e) {
+        } catch (IOException | UnirestException e) {
             throw new RuntimeException(e);
         }
     }
@@ -99,7 +104,7 @@ public class Config {
      * @param name relative name of a config file, without the file extension
      * @return a handle on the requested file
      */
-    static File loadConfigFile(String name) throws IOException {
+    private static File loadConfigFile(String name) throws IOException {
         String yamlPath = "./" + name + ".yaml";
         String jsonPath = "./" + name + ".json";
         File yamlFile = new File(yamlPath);
@@ -133,5 +138,13 @@ public class Config {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public int getNumShards() {
+        return numShards;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

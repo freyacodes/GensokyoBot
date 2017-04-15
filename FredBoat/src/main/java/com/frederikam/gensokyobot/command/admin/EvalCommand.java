@@ -25,10 +25,10 @@
 
 package com.frederikam.gensokyobot.command.admin;
 
-import com.frederikam.gensokyobot.audio.AbstractPlayer;
+import com.frederikam.gensokyobot.audio.GuildPlayer;
 import com.frederikam.gensokyobot.audio.PlayerRegistry;
-import com.frederikam.gensokyobot.commandmeta.abs.ICommandOwnerRestricted;
 import com.frederikam.gensokyobot.commandmeta.abs.Command;
+import com.frederikam.gensokyobot.commandmeta.abs.ICommandOwnerRestricted;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -40,7 +40,11 @@ import org.slf4j.LoggerFactory;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class EvalCommand extends Command implements ICommandOwnerRestricted {
 
@@ -77,7 +81,7 @@ public class EvalCommand extends Command implements ICommandOwnerRestricted {
         engine.put("message", message);
         engine.put("guild", guild);
         engine.put("player", PlayerRegistry.getExisting(guild));
-        engine.put("pm", AbstractPlayer.getPlayerManager());
+        engine.put("pm", GuildPlayer.audioPlayerManager);
 
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         ScheduledFuture<?> future = service.schedule(() -> {

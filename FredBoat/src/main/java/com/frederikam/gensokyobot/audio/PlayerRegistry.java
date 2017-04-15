@@ -49,7 +49,6 @@ public class PlayerRegistry {
         GuildPlayer player = REGISTRY.get(k);
         if (player == null) {
             player = new GuildPlayer(jda, jda.getGuildById(k));
-            player.setVolume(DEFAULT_VOLUME);
             REGISTRY.put(k, player);
         }
         return player;
@@ -78,7 +77,7 @@ public class PlayerRegistry {
         ArrayList<GuildPlayer> plrs = new ArrayList<>();
 
         for (GuildPlayer plr : REGISTRY.values()) {
-            if (plr.isPlaying()) {
+            if (plr.isPaused()) {
                 plrs.add(plr);
             }
         }

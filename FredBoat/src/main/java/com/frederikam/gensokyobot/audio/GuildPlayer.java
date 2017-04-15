@@ -27,6 +27,8 @@ package com.frederikam.gensokyobot.audio;
 
 import com.frederikam.gensokyobot.commandmeta.MessagingException;
 import com.frederikam.gensokyobot.feature.I18n;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -41,18 +43,17 @@ import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(GuildPlayer.class);
 
     public final JDA jda;
-    final String guildId;
-    public final Map<String, VideoSelection> selections = new HashMap<>();
+    private final String guildId;
     private TextChannel currentTC;
+    private boolean isPaused = false;
+    public static AudioPlayerManager audioPlayerManager = initAudioPlayerManager();
 
     @SuppressWarnings("LeakingThisInConstructor")
     public GuildPlayer(JDA jda, Guild guild) {
@@ -158,6 +159,14 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
         return currentTC;
     }
 
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
+    }
+
     @Override
     public boolean canProvide() {
         //TODO
@@ -174,4 +183,10 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     public boolean isOpus() {
         return true;
     }
+
+    private static AudioPlayerManager initAudioPlayerManager() {
+        AudioPlayerManager apm = new DefaultAudioPlayerManager();
+        return apm;
+    }
+
 }

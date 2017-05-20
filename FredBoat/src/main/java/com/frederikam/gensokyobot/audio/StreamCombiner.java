@@ -29,7 +29,7 @@ public class StreamCombiner extends Thread {
         setDaemon(true);
 
         try {
-            track = new AudioLoader().loadAsync(streamIdentifier);
+            track = new AudioLoader().loadSync(streamIdentifier);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -58,7 +58,7 @@ public class StreamCombiner extends Thread {
         }
     }
 
-    private void tick() {
+    private void tick() throws InterruptedException {
         if(getAverageBufferSize() > 100) {
             //Buffers have plenty to go on
             return;
@@ -69,6 +69,13 @@ public class StreamCombiner extends Thread {
         if(subscribers.isEmpty()) {
             // ¯\_(ツ)_/¯
             return;
+        }
+
+        // Make sure we reconnect if we lose connection
+        if(player.getPlayingTrack() == null) {
+            log.info("Track was somehow skipped. Trying to reload the stream...");
+            player.playTrack(new AudioLoader().loadSync(streamIdentifier));
+            log.info("Loaded new track: " + player.getPlayingTrack().getInfo().title);
         }
 
         ArrayList<Subscriber> toUnsubscribe = new ArrayList<>();
@@ -113,7 +120,7 @@ public class StreamCombiner extends Thread {
         private AudioTrack loadedItem;
         private boolean used = false;
 
-        AudioTrack loadAsync(String identifier) throws InterruptedException {
+        AudioTrack loadSync(String identifier) throws InterruptedException {
             if(used)
                 throw new IllegalStateException("This loader can only be used once per instance");
 

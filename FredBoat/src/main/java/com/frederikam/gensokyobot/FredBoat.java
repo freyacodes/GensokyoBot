@@ -30,7 +30,6 @@ import com.frederikam.gensokyobot.agent.ShardWatchdogAgent;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 import com.frederikam.gensokyobot.commandmeta.init.CommandInitializer;
 import com.frederikam.gensokyobot.event.EventListenerBoat;
-import com.frederikam.gensokyobot.event.EventListenerSelf;
 import com.frederikam.gensokyobot.event.ShardWatchdogListener;
 import com.frederikam.gensokyobot.feature.I18n;
 import com.frederikam.gensokyobot.util.log.SimpleLogToSLF4JAdapter;
@@ -70,7 +69,6 @@ public abstract class FredBoat {
     public static final int UNKNOWN_SHUTDOWN_CODE = -991023;
     public static int shutdownCode = UNKNOWN_SHUTDOWN_CODE;//Used when specifying the intended code for shutdown hooks
     static EventListenerBoat listenerBot;
-    static EventListenerSelf listenerSelf;
     ShardWatchdogListener shardWatchdogListener = null;
     private static AtomicInteger numShardsReady = new AtomicInteger(0);
 
@@ -79,7 +77,6 @@ public abstract class FredBoat {
     public final static ExecutorService executor = Executors.newCachedThreadPool();
 
     JDA jda;
-    private static FredBoatClient fbClient;
 
     private boolean hasReadiedOnce = false;
 
@@ -121,9 +118,8 @@ public abstract class FredBoat {
 
         Config.loadDefaultConfig(scope);
 
-        //Initialise event listeners
+        //Initialise event listener
         listenerBot = new EventListenerBoat();
-        listenerSelf = new EventListenerSelf();
 
         CommandInitializer.initCommands();
 
@@ -198,10 +194,6 @@ public abstract class FredBoat {
         return listenerBot;
     }
 
-    public static EventListenerSelf getListenerSelf() {
-        return listenerSelf;
-    }
-
     /* Sharding */
 
     public JDA getJda() {
@@ -254,20 +246,12 @@ public abstract class FredBoat {
         return null;
     }
 
-    public static FredBoatClient getClient() {
-        return fbClient;
-    }
-
     public static FredBoat getInstance(JDA jda) {
-        if(jda.getAccountType() == AccountType.CLIENT) {
-            return fbClient;
-        } else {
-            int sId = jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
+        int sId = jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
 
-            for(FredBoat fb : shards) {
-                if(((FredBoatBot) fb).getShardId() == sId) {
-                    return fb;
-                }
+        for(FredBoat fb : shards) {
+            if(((FredBoatBot) fb).getShardId() == sId) {
+                return fb;
             }
         }
 

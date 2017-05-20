@@ -54,14 +54,14 @@ public class FredBoatBot extends FredBoat {
             boolean success = false;
             while (!success) {
                 JDABuilder builder = new JDABuilder(AccountType.BOT)
-                        .addListener(new EventLogger("216689009110417408"))
-                        .addListener(shardWatchdogListener)
+                        .addEventListener(new EventLogger("216689009110417408"))
+                        .addEventListener(shardWatchdogListener)
                         .setToken(Config.CONFIG.getToken())
                         .setBulkDeleteSplittingEnabled(true)
                         .setEnableShutdownHook(false);
 
                 if(listener != null) {
-                    builder.addListener(listener);
+                    builder.addEventListener(listener);
                 } else {
                     log.warn("Starting a shard without an event listener!");
                 }

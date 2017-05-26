@@ -25,6 +25,7 @@
 
 package com.frederikam.gensokyobot.audio;
 
+import com.frederikam.gensokyobot.Config;
 import com.frederikam.gensokyobot.commandmeta.MessagingException;
 import com.frederikam.gensokyobot.feature.I18n;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -202,7 +203,7 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
     }
 
     private static StreamCombiner initGensokyoStreamCombiner() {
-        StreamCombiner sc = new StreamCombiner("https://gensokyoradio.net/GensokyoRadio.m3u");
+        StreamCombiner sc = new StreamCombiner(Config.CONFIG.getStreamUrl());
         sc.start();
         return sc;
     }

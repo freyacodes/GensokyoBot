@@ -21,7 +21,7 @@ public class StreamCombiner extends Thread {
     private AudioPlayer player;
     private ArrayList<Subscriber> subscribers = new ArrayList<>();
 
-    public StreamCombiner(String streamIdentifier) {
+    StreamCombiner(String streamIdentifier) {
         this.streamIdentifier = streamIdentifier;
         player = GuildPlayer.audioPlayerManager.createPlayer();
         player.checkCleanup(Long.MAX_VALUE); //No thanks

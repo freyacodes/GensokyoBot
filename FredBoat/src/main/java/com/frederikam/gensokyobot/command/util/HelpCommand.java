@@ -27,6 +27,7 @@ package com.frederikam.gensokyobot.command.util;
 
 import com.frederikam.gensokyobot.Config;
 import com.frederikam.gensokyobot.commandmeta.abs.Command;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -36,11 +37,11 @@ public class HelpCommand extends Command  {
 
     @Override
     public void onInvoke(Guild guild, TextChannel channel, Member invoker, Message message, String[] args) {
-        channel.sendMessage(getHelpMessage()).queue();
+        channel.sendMessage(getHelpMessage(guild.getJDA())).queue();
     }
 
-    public static String getHelpMessage() {
-        return "```md\n" +
+    public static String getHelpMessage(JDA jda) {
+        String out =  "```md\n" +
                 "< Music Commands >\n" +
                 ",,join\n" +
                 "#Joins your voice chat and begin playing.\n" +
@@ -52,10 +53,18 @@ public class HelpCommand extends Command  {
                 "#Displays stats about this bot\n" +
                 ",,help\n" +
                 "#Displays this help message\n" +
-                "\n\nAll music is streamed from https://gensokyoradio.net/\n" +
-                "Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=302857939910131712&scope=bot\n" +
+                "\n\n{0}" +
+                "Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=" + jda.getSelfUser().getId() + "&scope=bot\n" +
                 "Source code: https://github.com/Frederikam/GensokyoBot\n" +
                 "```".replaceAll(",,", Config.CONFIG.getPrefix());
+
+        if(Config.CONFIG.getStreamUrl().equals(Config.GENSOKYO_RADIO_STREAM_URL)) {
+            out = out.replaceFirst("\\{0}", "All music is streamed from https://gensokyoradio.net/\n");
+        } else {
+            out = out.replaceFirst("\\{0}", "");
+        }
+
+        return out;
     }
 
     @Override

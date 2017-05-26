@@ -113,7 +113,7 @@ public class EventListenerBoat extends AbstractEventListener {
             return;
         }
 
-        event.getChannel().sendMessage(HelpCommand.getHelpMessage()).queue();
+        event.getChannel().sendMessage(HelpCommand.getHelpMessage(event.getJDA())).queue();
         lastUserToReceiveHelp = event.getAuthor();
     }
 

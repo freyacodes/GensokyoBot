@@ -25,6 +25,7 @@
 
 package com.frederikam.gensokyobot.command.music.info;
 
+import com.frederikam.gensokyobot.Config;
 import com.frederikam.gensokyobot.agent.GensokyoInfoAgent;
 import com.frederikam.gensokyobot.commandmeta.abs.Command;
 import com.frederikam.gensokyobot.commandmeta.abs.IMusicCommand;
@@ -44,6 +45,12 @@ public class NowplayingCommand extends Command implements IMusicCommand {
 
     @Override
     public void onInvoke(Guild guild, TextChannel channel, Member invoker, Message message, String[] args) {
+
+        if(!Config.CONFIG.getStreamUrl().equals(Config.GENSOKYO_RADIO_STREAM_URL)) {
+            channel.sendMessage("Info unavailable for this stream").queue();
+            return;
+        }
+
         sendGensokyoRadioEmbed(channel);
     }
 

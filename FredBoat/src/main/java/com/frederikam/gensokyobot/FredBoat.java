@@ -132,7 +132,9 @@ public abstract class FredBoat {
         shardWatchdogAgent.setDaemon(true);
         shardWatchdogAgent.start();
 
-        new GensokyoInfoAgent().start();
+        if(Config.CONFIG.getStreamUrl().equals(Config.GENSOKYO_RADIO_STREAM_URL)) {
+            new GensokyoInfoAgent().start();
+        }
     }
 
     private static void initBotShards(EventListener listener) {

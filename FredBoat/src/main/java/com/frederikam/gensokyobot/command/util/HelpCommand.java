@@ -56,7 +56,9 @@ public class HelpCommand extends Command  {
                 "\n\n{0}" +
                 "Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=" + jda.getSelfUser().getId() + "&scope=bot\n" +
                 "Source code: https://github.com/Frederikam/GensokyoBot\n" +
-                "```".replaceAll(",,", Config.CONFIG.getPrefix());
+                "```";
+
+        out = out.replaceAll(",,", Config.CONFIG.getPrefix());
 
         if(Config.CONFIG.getStreamUrl().equals(Config.GENSOKYO_RADIO_STREAM_URL)) {
             out = out.replaceFirst("\\{0}", "All music is streamed from https://gensokyoradio.net/\n");

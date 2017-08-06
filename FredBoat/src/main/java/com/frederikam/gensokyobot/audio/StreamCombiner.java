@@ -112,7 +112,6 @@ public class StreamCombiner extends Thread {
 
     void unsubscribe(Subscriber sub) {
         subscribers.remove(sub);
-        sub.connected = false;
     }
 
     private class AudioLoader implements AudioLoadResultHandler {

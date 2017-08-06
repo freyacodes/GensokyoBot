@@ -171,6 +171,21 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
 
     @Override
     public boolean canProvide() {
+        boolean isPopulated = false;
+
+        for (Member member : jda.getGuildById(guildId).getAudioManager().getConnectedChannel().getMembers()) {
+            if (!member.getUser().isBot()) {
+                isPopulated = true;
+                break;
+            }
+        }
+
+        if (!isPopulated) {
+            if (subscriber.isConnected())
+                subscriber.unsubscribe();
+            return false;
+        }
+
         if(!subscriber.isConnected()) {
             subscriber = streamCombiner.subscribe();
             return false;

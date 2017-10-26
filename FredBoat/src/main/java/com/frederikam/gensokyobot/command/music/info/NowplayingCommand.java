@@ -83,7 +83,7 @@ public class NowplayingCommand extends Command implements IMusicCommand {
                 .addField(I18n.get(channel.getGuild()).getString("listeners"), Integer.toString(data.getJSONObject("SERVERINFO").getInt("LISTENERS")), true)
                 .setImage(albumArt)
                 .setColor(new Color(66, 16, 80))
-                .setFooter("Content provided by gensokyoradio.net. The GR logo is a trademark of Gensokyo Radio. Gensokyo Radio is © LunarSpotlight.", channel.getJDA().getSelfUser().getAvatarUrl())
+                .setFooter("Content provided by gensokyoradio.net.\nThe GR logo is a trademark of Gensokyo Radio.\nGensokyo Radio is © LunarSpotlight.", null)
                 .build();
 
         channel.sendMessage(eb.build()).queue();

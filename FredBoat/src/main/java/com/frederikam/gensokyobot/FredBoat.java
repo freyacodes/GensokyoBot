@@ -32,7 +32,6 @@ import com.frederikam.gensokyobot.commandmeta.init.CommandInitializer;
 import com.frederikam.gensokyobot.event.EventListenerBoat;
 import com.frederikam.gensokyobot.event.ShardWatchdogListener;
 import com.frederikam.gensokyobot.feature.I18n;
-import com.frederikam.gensokyobot.util.log.SimpleLogToSLF4JAdapter;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.AccountType;
@@ -44,7 +43,6 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
-import net.dv8tion.jda.core.utils.SimpleLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,12 +92,6 @@ public abstract class FredBoat {
                 "                                 |___/                       " + "\n\n");
 
         I18n.start();
-
-        //Attach log adapter
-        SimpleLog.addListener(new SimpleLogToSLF4JAdapter());
-
-        //Make JDA not print to console, we have Logback for that
-        SimpleLog.LEVEL = SimpleLog.Level.OFF;
 
         int scope;
         try {
@@ -175,7 +167,7 @@ public abstract class FredBoat {
         int code = shutdownCode != UNKNOWN_SHUTDOWN_CODE ? shutdownCode : -1;
 
         for(FredBoat fb : shards) {
-            fb.getJda().shutdown(false);
+            fb.getJda().shutdown();
         }
 
         try {
@@ -279,7 +271,7 @@ public abstract class FredBoat {
     }
 
     public void revive() {
-        jda.shutdown(false);
+        jda.shutdown();
         shards.set(getShardInfo().getShardId(), new FredBoatBot(getShardInfo().getShardId(), listenerBot));
     }
 

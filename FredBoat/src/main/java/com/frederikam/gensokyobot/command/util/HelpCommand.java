@@ -53,15 +53,15 @@ public class HelpCommand extends Command  {
                 "#Displays stats about this bot\n" +
                 ",,help\n" +
                 "#Displays this help message\n" +
-                "\n\n{0}" +
+                "\n\n" +
                 "Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=" + jda.getSelfUser().getId() + "&scope=bot\n" +
-                "Source code: https://github.com/Frederikam/GensokyoBot\n" +
+                "Source code: https://github.com/Frederikam/GensokyoBot\n\n{0}" +
                 "```";
 
         out = out.replaceAll(",,", Config.CONFIG.getPrefix());
 
         if(Config.CONFIG.getStreamUrl().equals(Config.GENSOKYO_RADIO_STREAM_URL)) {
-            out = out.replaceFirst("\\{0}", "All music is streamed from https://gensokyoradio.net/\n");
+            out = out.replaceFirst("\\{0}", "Content provided by gensokyoradio.net.\nThe GR logo is a trademark of Gensokyo Radio.\nGensokyo Radio is © LunarSpotlight.\n");
         } else {
             out = out.replaceFirst("\\{0}", "");
         }

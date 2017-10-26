@@ -62,7 +62,7 @@ public class NowplayingCommand extends Command implements IMusicCommand {
                 MessageFormat.format(I18n.get(channel.getGuild()).getString("npRatingRange"), data.getJSONObject("MISC").getInt("RATING"), data.getJSONObject("MISC").getInt("TIMESRATED"));
 
         String albumArt = data.getJSONObject("MISC").getString("ALBUMART").equals("") ?
-                "https://gensokyoradio.net/images/albums/c200/gr6_circular.png" :
+                "https://i.imgur.com/a1SQKuw.png" :
                 "https://gensokyoradio.net/images/albums/original/" + data.getJSONObject("MISC").getString("ALBUMART");
 
         String titleUrl = data.getJSONObject("MISC").getString("CIRCLELINK").equals("") ?
@@ -83,7 +83,7 @@ public class NowplayingCommand extends Command implements IMusicCommand {
                 .addField(I18n.get(channel.getGuild()).getString("listeners"), Integer.toString(data.getJSONObject("SERVERINFO").getInt("LISTENERS")), true)
                 .setImage(albumArt)
                 .setColor(new Color(66, 16, 80))
-                .setFooter(channel.getJDA().getSelfUser().getName(), channel.getJDA().getSelfUser().getAvatarUrl())
+                .setFooter("Content provided by gensokyoradio.net. The GR logo is a trademark of Gensokyo Radio. Gensokyo Radio is © LunarSpotlight.", channel.getJDA().getSelfUser().getAvatarUrl())
                 .build();
 
         channel.sendMessage(eb.build()).queue();

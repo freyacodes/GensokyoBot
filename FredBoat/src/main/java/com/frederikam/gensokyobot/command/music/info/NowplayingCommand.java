@@ -62,7 +62,7 @@ public class NowplayingCommand extends Command implements IMusicCommand {
                 MessageFormat.format(I18n.get(channel.getGuild()).getString("npRatingRange"), data.getJSONObject("MISC").getInt("RATING"), data.getJSONObject("MISC").getInt("TIMESRATED"));
 
         String albumArt = data.getJSONObject("MISC").getString("ALBUMART").equals("") ?
-                "https://i.imgur.com/a1SQKuw.png" :
+                "https://i.imgur.com/diwlC.png" :
                 "https://gensokyoradio.net/images/albums/original/" + data.getJSONObject("MISC").getString("ALBUMART");
 
         String titleUrl = data.getJSONObject("MISC").getString("CIRCLELINK").equals("") ?

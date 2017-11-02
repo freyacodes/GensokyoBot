@@ -16,7 +16,10 @@ The bot is optimized in such a way that only one stream is opened to the source.
 #Displays this help message
 
 
-All music is streamed from https://gensokyoradio.net/
 Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=302857939910131712&scope=bot
 Source code: https://github.com/Frederikam/GensokyoBot
+
+Content provided by gensokyoradio.net.
+The GR logo is a trademark of Gensokyo Radio.
+Gensokyo Radio is © LunarSpotlight.
 ```

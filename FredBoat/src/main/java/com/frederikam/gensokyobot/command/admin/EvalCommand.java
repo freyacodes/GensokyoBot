@@ -69,7 +69,7 @@ public class EvalCommand extends Command implements ICommandOwnerRestricted {
 
         channel.sendTyping().queue();
 
-        final String source = message.getRawContent().substring(args[0].length() + 1);
+        final String source = message.getContentRaw().substring(args[0].length() + 1);
 
         engine.put("jda", jda);
         engine.put("api", jda);

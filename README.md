@@ -4,19 +4,23 @@ The bot is optimized in such a way that only one stream is opened to the source.
 
 ```md
 < Music Commands >
-,,join
+,.join
 #Joins your voice chat and begin playing.
-,,leave
+,.leave
 #Leaves the voice chat, stopping the music
-,,np
+,.np
 #Shows the song currently playing in a nice embed
-,,stats
+,.stats
 #Displays stats about this bot
-,,help
+,.shards
+#Displays shards information about this bot
+,.invite
+#Displays invite link for this bot
+,.help
 #Displays this help message
 
 
-Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=302857939910131712&scope=bot
+Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=483859243758518273&scope=bot
 Source code: https://github.com/Frederikam/GensokyoBot
 
 Content provided by gensokyoradio.net.

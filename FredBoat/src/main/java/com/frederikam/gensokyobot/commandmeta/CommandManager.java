@@ -51,7 +51,7 @@ public class CommandManager {
     public static int commandsExecuted = 0;
 
     public static void prefixCalled(Command invoked, Guild guild, TextChannel channel, Member invoker, Message message) {
-        String[] args = commandToArguments(message.getRawContent());
+        String[] args = commandToArguments(message.getContentRaw());
         commandsExecuted++;
 
         if (invoked instanceof ICommandOwnerRestricted) {

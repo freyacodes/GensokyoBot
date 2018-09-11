@@ -28,7 +28,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fredboat</groupId>
     <version>1.0</version>
-    <artifactId>FredBoat-Root</artifactId>
+    <artifactId>GensokyoBot</artifactId>
     <packaging>pom</packaging>
 
     <modules>

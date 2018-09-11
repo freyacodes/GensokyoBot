@@ -49,7 +49,7 @@ public class EventLogger extends ListenerAdapter {
     }
 
     private void send(Message msg) {
-        send(msg.getRawContent());
+        send(msg.getContentRaw());
     }
 
     private void send(String msg) {

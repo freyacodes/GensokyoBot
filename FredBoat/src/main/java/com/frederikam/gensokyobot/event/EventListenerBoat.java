@@ -46,7 +46,7 @@ public class EventListenerBoat extends AbstractEventListener {
 
     private static final Logger log = LoggerFactory.getLogger(EventListenerBoat.class);
 
-    public static HashMap<String, Message> messagesToDeleteIfIdDeleted = new HashMap<>();
+    private static HashMap<String, Message> messagesToDeleteIfIdDeleted = new HashMap<>();
     private User lastUserToReceiveHelp;
 
     public EventListenerBoat() {
@@ -55,23 +55,23 @@ public class EventListenerBoat extends AbstractEventListener {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getPrivateChannel() != null) {
-            log.info("PRIVATE" + " \t " + event.getAuthor().getName() + " \t " + event.getMessage().getRawContent());
+            log.info("PRIVATE" + " \t " + event.getAuthor().getName() + " \t " + event.getMessage().getContentRaw());
             return;
         }
 
         if (event.getAuthor().equals(event.getJDA().getSelfUser())) {
-            log.info(event.getGuild().getName() + " \t " + event.getAuthor().getName() + " \t " + event.getMessage().getRawContent());
+            log.info(event.getGuild().getName() + " \t " + event.getAuthor().getName() + " \t " + event.getMessage().getContentRaw());
             return;
         }
 
-        if (event.getMessage().getContent().length() < Config.CONFIG.getPrefix().length()) {
+        if (event.getMessage().getContentDisplay().length() < Config.CONFIG.getPrefix().length()) {
             return;
         }
 
-        if (event.getMessage().getContent().substring(0, Config.CONFIG.getPrefix().length()).equals(Config.CONFIG.getPrefix())) {
+        if (event.getMessage().getContentDisplay().substring(0, Config.CONFIG.getPrefix().length()).equals(Config.CONFIG.getPrefix())) {
             Command invoked = null;
-            log.info(event.getGuild().getName() + " \t " + event.getAuthor().getName() + " \t " + event.getMessage().getRawContent());
-            Matcher matcher = COMMAND_NAME_PREFIX.matcher(event.getMessage().getContent());
+            log.info(event.getGuild().getName() + " \t " + event.getAuthor().getName() + " \t " + event.getMessage().getContentRaw());
+            Matcher matcher = COMMAND_NAME_PREFIX.matcher(event.getMessage().getContentDisplay());
 
             if(matcher.find()) {
                 String cmdName = matcher.group();

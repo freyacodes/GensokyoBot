@@ -108,7 +108,7 @@ public class TextUtils {
         try {
             channel.sendMessage(out).queue();
         } catch (UnsupportedOperationException tooLongEx) {
-            try {channel.sendMessage(MessageFormat.format(I18n.get(channel.getGuild()).getString("errorOccurredTooLong"), postToHastebin(out.getRawContent()))).queue();
+            try {channel.sendMessage(MessageFormat.format(I18n.get(channel.getGuild()).getString("errorOccurredTooLong"), postToHastebin(out.getContentRaw()))).queue();
             } catch (UnirestException e1) {
                 channel.sendMessage(I18n.get(channel.getGuild()).getString("errorOccurredTooLongAndUnirestException")).queue();
             }

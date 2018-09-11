@@ -51,6 +51,10 @@ public class HelpCommand extends Command  {
                 "#Shows the song currently playing in a nice embed\n" +
                 ",,stats\n" +
                 "#Displays stats about this bot\n" +
+                ",,shards\n" +
+                "#Displays shards information about this bot\n" +
+                ",,invite\n" +
+                "#Displays invite link for this bot\n" +
                 ",,help\n" +
                 "#Displays this help message\n" +
                 "\n\n" +

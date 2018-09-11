@@ -75,14 +75,14 @@ public class CompileCommand extends Command implements ICommandOwnerRestricted {
             new SLF4JInputStreamErrorLogger(log, gitClone.getInputStream()).start();
 
             if (!gitClone.waitFor(120, TimeUnit.SECONDS)) {
-                msg = msg.editMessage(msg.getRawContent() + "[:anger: timed out]\n\n").complete(true);
+                msg = msg.editMessage(msg.getContentRaw() + "[:anger: timed out]\n\n").complete(true);
                 throw new RuntimeException("Operation timed out: git clone");
             } else if (gitClone.exitValue() != 0) {
-                msg = msg.editMessage(msg.getRawContent() + "[:anger: returned code " + gitClone.exitValue() + "]\n\n").complete(true);
+                msg = msg.editMessage(msg.getContentRaw() + "[:anger: returned code " + gitClone.exitValue() + "]\n\n").complete(true);
                 throw new RuntimeException("Bad response code");
             }
 
-            msg = msg.editMessage(msg.getRawContent() + "👌🏽\n\nRunning `mvn package shade:shade`... ").complete(true);
+            msg = msg.editMessage(msg.getContentRaw() + "👌🏽\n\nRunning `mvn package shade:shade`... ").complete(true);
             File updateDir = new File("update/FredBoat");
 
             Process mvnBuild = rt.exec("mvn -f " + updateDir.getAbsolutePath() + "/pom.xml package shade:shade");
@@ -90,14 +90,14 @@ public class CompileCommand extends Command implements ICommandOwnerRestricted {
             new SLF4JInputStreamErrorLogger(log, mvnBuild.getInputStream()).start();
 
             if (!mvnBuild.waitFor(600, TimeUnit.SECONDS)) {
-                msg = msg.editMessage(msg.getRawContent() + "[:anger: timed out]\n\n").complete(true);
+                msg = msg.editMessage(msg.getContentRaw() + "[:anger: timed out]\n\n").complete(true);
                 throw new RuntimeException("Operation timed out: mvn package shade:shade");
             } else if (mvnBuild.exitValue() != 0) {
-                msg = msg.editMessage(msg.getRawContent() + "[:anger: returned code " + mvnBuild.exitValue() + "]\n\n").complete(true);
+                msg = msg.editMessage(msg.getContentRaw() + "[:anger: returned code " + mvnBuild.exitValue() + "]\n\n").complete(true);
                 throw new RuntimeException("Bad response code");
             }
 
-            msg.editMessage(msg.getRawContent() + "👌🏽").queue();
+            msg.editMessage(msg.getContentRaw() + "👌🏽").queue();
 
             if(!new File("./update/FredBoat/target/FredBoat-1.0.jar").renameTo(new File(System.getProperty("user.home") + "/FredBoat-1.0.jar"))){
                 throw new RuntimeException("Failed to move jar to home");

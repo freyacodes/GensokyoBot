@@ -12,8 +12,10 @@ import com.frederikam.gensokyobot.command.maintenance.VersionCommand;
 import com.frederikam.gensokyobot.command.music.control.JoinCommand;
 import com.frederikam.gensokyobot.command.music.control.LeaveCommand;
 import com.frederikam.gensokyobot.command.music.info.NowplayingCommand;
+import com.frederikam.gensokyobot.command.util.HelloCommand;
 import com.frederikam.gensokyobot.command.util.HelpCommand;
 import com.frederikam.gensokyobot.command.util.InviteCommand;
+import com.frederikam.gensokyobot.command.util.PingCommand;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 
 public class CommandInitializer {
@@ -30,6 +32,8 @@ public class CommandInitializer {
         CommandRegistry.registerCommand("shards", new ShardsCommand());
         CommandRegistry.registerCommand("invite", new InviteCommand());
         CommandRegistry.registerCommand("version", new VersionCommand());
+        CommandRegistry.registerCommand("ping", new PingCommand());
+        CommandRegistry.registerCommand("hello", new HelloCommand());
         CommandRegistry.registerCommand("np", new NowplayingCommand());
         CommandRegistry.registerAlias("np", "nowplaying");
 

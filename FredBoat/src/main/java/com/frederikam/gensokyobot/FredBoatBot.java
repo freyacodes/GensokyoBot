@@ -30,7 +30,6 @@ import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import com.frederikam.gensokyobot.event.ShardWatchdogListener;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,13 +74,9 @@ public class FredBoatBot extends FredBoat {
                 if (Config.CONFIG.getNumShards() > 1) {
                     builder.useSharding(shardId, Config.CONFIG.getNumShards());
                 }
-                try {
-                    jda = builder.buildAsync();
+                jda = builder.buildAsync();
                     success = true;
-                } catch (RateLimitedException e) {
-                    log.warn("Got rate limited while building bot JDA instance! Retrying...", e);
-                    Thread.sleep(SHARD_CREATION_SLEEP_INTERVAL);
-                }
+
             }
         } catch (Exception e) {
             throw new RuntimeException("Failed to start JDA shard " + shardId, e);

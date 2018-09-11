@@ -6,11 +6,14 @@ import com.frederikam.gensokyobot.command.admin.EvalCommand;
 import com.frederikam.gensokyobot.command.admin.ExitCommand;
 import com.frederikam.gensokyobot.command.admin.ReviveCommand;
 import com.frederikam.gensokyobot.command.admin.UpdateCommand;
+import com.frederikam.gensokyobot.command.maintenance.ShardsCommand;
 import com.frederikam.gensokyobot.command.maintenance.StatsCommand;
+import com.frederikam.gensokyobot.command.maintenance.VersionCommand;
 import com.frederikam.gensokyobot.command.music.control.JoinCommand;
 import com.frederikam.gensokyobot.command.music.control.LeaveCommand;
 import com.frederikam.gensokyobot.command.music.info.NowplayingCommand;
 import com.frederikam.gensokyobot.command.util.HelpCommand;
+import com.frederikam.gensokyobot.command.util.InviteCommand;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 
 public class CommandInitializer {
@@ -24,6 +27,9 @@ public class CommandInitializer {
         CommandRegistry.registerCommand("leave", new LeaveCommand());
         CommandRegistry.registerAlias("leave", "stop");
         CommandRegistry.registerCommand("stats", new StatsCommand());
+        CommandRegistry.registerCommand("shards", new ShardsCommand());
+        CommandRegistry.registerCommand("invite", new InviteCommand());
+        CommandRegistry.registerCommand("version", new VersionCommand());
         CommandRegistry.registerCommand("np", new NowplayingCommand());
         CommandRegistry.registerAlias("np", "nowplaying");
 

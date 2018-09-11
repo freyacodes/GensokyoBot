@@ -100,7 +100,7 @@ public class DiscordUtil {
     }
 
     public static void sendShardlessMessage(String channel, Message msg) {
-        sendShardlessMessage(msg.getJDA(), channel, msg.getRawContent());
+        sendShardlessMessage(msg.getJDA(), channel, msg.getContentRaw());
     }
 
     public static void sendShardlessMessage(JDA jda, String channel, String content) {

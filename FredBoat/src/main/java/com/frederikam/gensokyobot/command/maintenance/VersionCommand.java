@@ -13,7 +13,7 @@ public class VersionCommand extends Command implements IMaintenanceCommand {
 
 
     @Override
-    public void onInvoke(Guild guild,  TextChannel channel, Member invoke, Message message, String[] args) {
+    public void onInvoke(Guild guild,  TextChannel channel, Member invoker, Message message, String[] args) {
         channel.sendMessage("JDA Version: " + JDAInfo.VERSION);
     }
 

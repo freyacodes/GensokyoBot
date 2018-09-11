@@ -47,7 +47,7 @@ systemctl start fredboat
 #Displays this help message
 
 
-Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=483859243758518273&scope=bot
+Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=302857939910131712&scope=bot
 Source code: https://github.com/Frederikam/GensokyoBot
 
 Content provided by gensokyoradio.net.

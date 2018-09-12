@@ -128,7 +128,7 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
             return currentTC;
         } else {
             log.warn("No currentTC in " + getGuild() + "! Returning public channel...");
-            return getGuild().getPublicChannel();
+            return getGuild().getDefaultChannel();
         }
 
     }

@@ -1,0 +1,12 @@
+[Unit]
+Description=GensokyoBot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/YOUR_USER/GensokyoBot/FredBoat
+ExecStart=/usr/bin/java -jar GensokyoBot-1.0.jar
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -2,6 +2,31 @@
 This bot is a fork of FredBoat. Most features of FredBoat have been removed or replaced in favour of offering streaming from a single source.
 The bot is optimized in such a way that only one stream is opened to the source.
 
+# Documentation
+1. Java 10 __JDK__: [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html) or [OpenJDK](http://jdk.java.net/10/)
+2. [Git](https://www.atlassian.com/git/tutorials/install-git)
+3. [JDK added to your PATH](https://www.tutorialspoint.com/maven/maven_environment_setup.htm)
+
+Installing and running the bot
+```md
+sudo apt -y update && apt -y upgrade
+sudo apt -y install maven
+git clone https://github.com/Frederikam/GensokyoBot.git
+cd GensokyoBot/FredBoat
+mvn package shade:shade
+mv target/GensokyoBot-1.0.jar /home/YOUR_USER/GensokyoBot/Fredboat
+java -jar GensokyoBot-1.0.jar
+```
+
+# Service
+```md
+cp fredboat.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable fredboat
+systemctl start fredboat
+```
+
+# Commands
 ```md
 < Music Commands >
 ,,join
@@ -12,6 +37,12 @@ The bot is optimized in such a way that only one stream is opened to the source.
 #Shows the song currently playing in a nice embed
 ,,stats
 #Displays stats about this bot
+,,shards
+#Displays shards information about this bot
+,,version
+#Displays the version of JDA on this bot
+,,invite
+#Displays invite link for this bot
 ,,help
 #Displays this help message
 

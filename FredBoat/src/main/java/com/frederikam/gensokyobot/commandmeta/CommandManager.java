@@ -57,7 +57,7 @@ public class CommandManager {
         if (invoked instanceof ICommandOwnerRestricted) {
             //Check if invoker is actually the owner
             if (!DiscordUtil.isUserBotOwner(invoker.getUser())) {
-                channel.sendMessage(TextUtils.prefaceWithName(invoker, I18n.get(guild).getString("cmdAccessDenied"))).queue();
+                channel.sendMessage(TextUtils.prefaceWithName(invoker, I18n.get().getString("cmdAccessDenied"))).queue();
                 return;
             }
         }
@@ -65,28 +65,7 @@ public class CommandManager {
         if (invoked instanceof ICommandAdminRestricted) {
             //Only the bot owner can execute these
             if (!DiscordUtil.isUserBotOwner(invoker.getUser())) {
-                channel.sendMessage(TextUtils.prefaceWithName(invoker, I18n.get(guild).getString("cmdAccessDenied"))).queue();
-                return;
-            }
-        }
-
-        //Hardcode music commands in FredBoatHangout. Blacklist any channel that isn't #general or #staff, but whitelist Frederikam
-        if (invoked instanceof IMusicCommand
-                && guild.getId().equals(BotConstants.FREDBOAT_HANGOUT_ID)
-                && guild.getJDA().getSelfUser().getId().equals(BotConstants.MUSIC_BOT_ID)) {
-            if (!channel.getId().equals("174821093633294338")
-                    && !channel.getId().equals("217526705298866177")
-                    && !invoker.getUser().getId().equals("203330266461110272")//Cynth
-                    && !invoker.getUser().getId().equals("81011298891993088")) {
-                message.delete().queue();
-                channel.sendMessage(invoker.getEffectiveName() + ": Please don't spam music commands outside of <#174821093633294338>.").queue(message1 -> {
-                    RestActionScheduler.schedule(
-                            message1.delete(),
-                            5,
-                            TimeUnit.SECONDS
-                    );
-                });
-
+                channel.sendMessage(TextUtils.prefaceWithName(invoker, I18n.get().getString("cmdAccessDenied"))).queue();
                 return;
             }
         }

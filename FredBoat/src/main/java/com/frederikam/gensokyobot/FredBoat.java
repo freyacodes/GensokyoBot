@@ -26,59 +26,42 @@
 package com.frederikam.gensokyobot;
 
 import com.frederikam.gensokyobot.agent.GensokyoInfoAgent;
-import com.frederikam.gensokyobot.agent.ShardWatchdogAgent;
 import com.frederikam.gensokyobot.commandmeta.CommandRegistry;
 import com.frederikam.gensokyobot.commandmeta.init.CommandInitializer;
 import com.frederikam.gensokyobot.event.EventListenerBoat;
-import com.frederikam.gensokyobot.event.ShardWatchdogListener;
+import com.frederikam.gensokyobot.event.EventLogger;
 import com.frederikam.gensokyobot.feature.I18n;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
+import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.bot.sharding.ShardManager;
 import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.ReadyEvent;
-import net.dv8tion.jda.core.hooks.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class FredBoat {
+public class FredBoat {
 
     private static final Logger log = LoggerFactory.getLogger(FredBoat.class);
 
-    static final int SHARD_CREATION_SLEEP_INTERVAL = 5100;
-
-    private static final ArrayList<FredBoat> shards = new ArrayList<>();
     public static final long START_TIME = System.currentTimeMillis();
     public static final int UNKNOWN_SHUTDOWN_CODE = -991023;
     public static int shutdownCode = UNKNOWN_SHUTDOWN_CODE;//Used when specifying the intended code for shutdown hooks
-    static EventListenerBoat listenerBot;
-    ShardWatchdogListener shardWatchdogListener = null;
     private static AtomicInteger numShardsReady = new AtomicInteger(0);
 
     //unlimited threads = http://i.imgur.com/H3b7H1S.gif
     //use this executor for various small async tasks
     public final static ExecutorService executor = Executors.newCachedThreadPool();
 
-    JDA jda;
+    private static ShardManager shardManager;
 
-    private boolean hasReadiedOnce = false;
-
-    public static void main(String[] args) throws LoginException, IllegalArgumentException, InterruptedException, IOException, UnirestException {
+    public static void main(String[] args) throws LoginException, IllegalArgumentException, IOException {
         Runtime.getRuntime().addShutdownHook(new Thread(ON_SHUTDOWN));
 
         log.info("\n\n" +
@@ -110,51 +93,40 @@ public abstract class FredBoat {
 
         Config.loadDefaultConfig(scope);
 
-        //Initialise event listener
-        listenerBot = new EventListenerBoat();
-
         CommandInitializer.initCommands();
 
         log.info("Loaded commands, registry size is " + CommandRegistry.getSize());
 
-        /* Init JDA */
-        initBotShards(listenerBot);
+        DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder()
+                .addEventListeners(new EventLogger("216689009110417408"), new EventListenerBoat())
+                .setToken(Config.CONFIG.getToken())
+                .setBulkDeleteSplittingEnabled(true)
+                .setEnableShutdownHook(false)
+                .setShardsTotal(Config.CONFIG.getNumShards())
+                .setAutoReconnect(true);
 
-        ShardWatchdogAgent shardWatchdogAgent = new ShardWatchdogAgent();
-        shardWatchdogAgent.setDaemon(true);
-        shardWatchdogAgent.start();
+        if (!System.getProperty("os.arch").equalsIgnoreCase("arm")
+                && !System.getProperty("os.arch").equalsIgnoreCase("arm-linux")
+                && !System.getProperty("os.arch").equalsIgnoreCase("darwin")
+                && !System.getProperty("os.name").equalsIgnoreCase("Mac OS X")) {
+            builder.setAudioSendFactory(new NativeAudioSendFactory());
+        }
+
+        shardManager = builder.build();
 
         if(Config.CONFIG.getStreamUrl().equals(Config.GENSOKYO_RADIO_STREAM_URL)) {
             new GensokyoInfoAgent().start();
         }
     }
 
-    private static void initBotShards(EventListener listener) {
-        for(int i = 0; i < Config.CONFIG.getNumShards(); i++){
-            try {
-                shards.add(i, new FredBoatBot(i, listener));
-            } catch (Exception e) {
-                log.error("Caught an exception while starting shard " + i + "!", e);
-                numShardsReady.getAndIncrement();
-            }
-            try {
-                Thread.sleep(SHARD_CREATION_SLEEP_INTERVAL);
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Got interrupted while setting up bot shards!", e);
-            }
-        }
-
-        log.info(shards.size() + " shards have been constructed");
-
+    public static ShardManager getShardManager() {
+        return shardManager;
     }
 
-    public void onInit(ReadyEvent readyEvent) {
-        if (!hasReadiedOnce) {
-            numShardsReady.incrementAndGet();
-            hasReadiedOnce = false;
-        }
+    public static void onInit(ReadyEvent readyEvent) {
+        numShardsReady.incrementAndGet();
 
-        log.info("Received ready event for " + FredBoat.getInstance(readyEvent.getJDA()).getShardInfo().getShardString());
+        log.info("Received ready event for " + readyEvent.getJDA().getShardInfo().getShardString());
 
         int ready = numShardsReady.get();
         if (ready == Config.CONFIG.getNumShards()) {
@@ -164,11 +136,7 @@ public abstract class FredBoat {
 
     //Shutdown hook
     private static final Runnable ON_SHUTDOWN = () -> {
-        int code = shutdownCode != UNKNOWN_SHUTDOWN_CODE ? shutdownCode : -1;
-
-        for(FredBoat fb : shards) {
-            fb.getJda().shutdown();
-        }
+        shardManager.shutdown();
 
         try {
             Unirest.shutdown();
@@ -182,129 +150,5 @@ public abstract class FredBoat {
         shutdownCode = code;
 
         System.exit(code);
-    }
-
-    public static EventListenerBoat getListenerBot() {
-        return listenerBot;
-    }
-
-    /* Sharding */
-
-    public JDA getJda() {
-        return jda;
-    }
-
-    public static List<FredBoat> getShards() {
-        return shards;
-    }
-
-    public static List<Guild> getAllGuilds() {
-        ArrayList<Guild> list = new ArrayList<>();
-
-        for (FredBoat fb : shards) {
-            list.addAll(fb.getJda().getGuilds());
-        }
-
-        return list;
-    }
-
-    public static Map<String, User> getAllUsersAsMap() {
-        HashMap<String, User> map = new HashMap<>();
-
-        for (FredBoat fb : shards) {
-            for (User usr : fb.getJda().getUsers()) {
-                map.put(usr.getId(), usr);
-            }
-        }
-
-        return map;
-    }
-
-    public static TextChannel getTextChannelById(String id) {
-        for (FredBoat fb : shards) {
-            for (TextChannel channel : fb.getJda().getTextChannels()) {
-                if(channel.getId().equals(id)) return channel;
-            }
-        }
-
-        return null;
-    }
-
-    public static VoiceChannel getVoiceChannelById(String id) {
-        for (FredBoat fb : shards) {
-            for (VoiceChannel channel : fb.getJda().getVoiceChannels()) {
-                if(channel.getId().equals(id)) return channel;
-            }
-        }
-
-        return null;
-    }
-
-    public static FredBoat getInstance(JDA jda) {
-        int sId = jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
-
-        for(FredBoat fb : shards) {
-            if(((FredBoatBot) fb).getShardId() == sId) {
-                return fb;
-            }
-        }
-
-        throw new IllegalStateException("Attempted to get instance for JDA shard that is not indexed");
-    }
-
-    public static FredBoat getInstance(int id) {
-        return shards.get(id);
-    }
-
-    public static JDA getFirstJDA(){
-        return shards.get(0).getJda();
-    }
-
-    public ShardInfo getShardInfo() {
-        int sId = jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
-
-        if(jda.getAccountType() == AccountType.CLIENT) {
-            return new ShardInfo(0, 1);
-        } else {
-            return new ShardInfo(sId, Config.CONFIG.getNumShards());
-        }
-    }
-
-    public void revive() {
-        jda.shutdown();
-        shards.set(getShardInfo().getShardId(), new FredBoatBot(getShardInfo().getShardId(), listenerBot));
-    }
-
-    public ShardWatchdogListener getShardWatchdogListener() {
-        return shardWatchdogListener;
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public class ShardInfo {
-
-        int shardId;
-        int shardTotal;
-
-        ShardInfo(int shardId, int shardTotal) {
-            this.shardId = shardId;
-            this.shardTotal = shardTotal;
-        }
-
-        public int getShardId() {
-            return this.shardId;
-        }
-
-        public int getShardTotal() {
-            return this.shardTotal;
-        }
-
-        public String getShardString() {
-            return String.format("[%02d / %02d]", this.shardId, this.shardTotal);
-        }
-
-        @Override
-        public String toString() {
-            return getShardString();
-        }
     }
 }

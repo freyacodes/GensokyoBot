@@ -55,11 +55,7 @@ public class GensokyoInfoAgent extends Thread {
             String newSong = data.getJSONObject("SONGINFO").getString("TITLE");
 
             if (!newSong.equals(lastSong)) {
-                List<FredBoat> shards = FredBoat.getShards();
-                for(FredBoat shard : shards) {
-                    shard.getJda().getPresence().setGame(Game.playing(newSong));
-                }
-
+                FredBoat.getShardManager().getShards().forEach(jda -> jda.getPresence().setGame(Game.listening(newSong)));
                 log.info("Now playing " + newSong);
             }
 

@@ -26,22 +26,6 @@
 package com.frederikam.gensokyobot.util;
 
 public enum DistributionEnum {
-    MUSIC("music", false),
-    DEVELOPMENT("beta", false);
-
-    private final String id;
-    private final boolean volumeSupported;
-
-    DistributionEnum(String id, boolean volumeSupported) {
-        this.id = id;
-        this.volumeSupported = volumeSupported;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public boolean volumeSupported() {
-        return volumeSupported;
-    }
+    MUSIC,
+    DEVELOPMENT
 }

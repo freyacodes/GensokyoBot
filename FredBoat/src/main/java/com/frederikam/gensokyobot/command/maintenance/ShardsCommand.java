@@ -49,22 +49,22 @@ public class ShardsCommand extends Command implements IMaintenanceCommand {
         List<MessageBuilder> builders = new ArrayList<>();
 
         int i = 0;
-        for(FredBoat fb : FredBoat.getShards()) {
+        for(JDA shard : FredBoat.getShardManager().getShards()) {
             if(i % SHARDS_PER_MESSAGE == 0) {
                 mb = new MessageBuilder()
                         .append("```diff\n");
                 builders.add(mb);
             }
 
-            mb.append(fb.getJda().getStatus() == JDA.Status.CONNECTED ? "+" : "-")
+            mb.append(shard.getStatus() == JDA.Status.CONNECTED ? "+" : "-")
                     .append(" ")
-                    .append(fb.getShardInfo().getShardString())
+                    .append(shard.getShardInfo().getShardString())
                     .append(" ")
-                    .append(fb.getJda().getStatus())
+                    .append(shard.getStatus())
                     .append(" -- Guilds: ")
-                    .append(String.format("%04d",fb.getJda().getGuilds().size()))
+                    .append(String.format("%04d",shard.getGuilds().size()))
                     .append(" -- Users: ")
-                    .append(fb.getJda().getUsers().size())
+                    .append(shard.getUsers().size())
                     .append("\n");
             i++;
         }

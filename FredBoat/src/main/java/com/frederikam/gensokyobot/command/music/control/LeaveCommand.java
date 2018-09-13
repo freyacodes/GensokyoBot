@@ -56,6 +56,6 @@ public class LeaveCommand extends Command implements IMusicCommand {
     @Override
     public String help(Guild guild) {
         String usage = "{0}{1}\n#";
-        return usage + I18n.get(guild).getString("helpLeaveCommand");
+        return usage + I18n.get().getString("helpLeaveCommand");
     }
 }

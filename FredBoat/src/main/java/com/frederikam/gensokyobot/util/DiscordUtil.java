@@ -25,134 +25,28 @@
 
 package com.frederikam.gensokyobot.util;
 
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.requests.Request;
-import net.dv8tion.jda.core.requests.Requester;
-import net.dv8tion.jda.core.requests.Response;
-import net.dv8tion.jda.core.requests.RestAction;
-import net.dv8tion.jda.core.requests.Route;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DiscordUtil {
 
     private static final Logger log = LoggerFactory.getLogger(DiscordUtil.class);
 
-    private static final String USER_AGENT = "FredBoat DiscordBot (https://github.com/Frederikam/FredBoat, 1.0)";
-
-    private DiscordUtil() {
-    }
-
     public static boolean isUserBotOwner(User user) {
         return getOwnerId(user.getJDA()).equals(user.getId());
     }
 
-    public static String getOwnerId(JDA jda) {
+    private static String getOwnerId(JDA jda) {
         try {
-            return getApplicationInfo(jda.getToken().substring(4)).getJSONObject("owner").getString("id");
-        } catch (UnirestException e) {
+            AtomicReference<String> ownerId = new AtomicReference<>();
+            jda.asBot().getApplicationInfo().queue(applicationInfo -> ownerId.set(applicationInfo.getOwner().getId()));
+            return ownerId.get();
+        } catch (NullPointerException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public static boolean isMainBotPresent(Guild guild) {
-        JDA jda = guild.getJDA();
-        User other = jda.getUserById(BotConstants.MAIN_BOT_ID);
-        return other != null && guild.getMember(other) != null;
-    }
-
-    public static boolean isMusicBotPresent(Guild guild) {
-        JDA jda = guild.getJDA();
-        User other = jda.getUserById(BotConstants.MUSIC_BOT_ID);
-        return other != null && guild.getMember(other) != null;
-    }
-    
-    public static boolean isPatronBotPresentAndOnline(Guild guild) {
-        JDA jda = guild.getJDA();
-        User other = jda.getUserById(BotConstants.PATRON_BOT_ID);
-        return other != null && guild.getMember(other) != null && guild.getMember(other).getOnlineStatus() == OnlineStatus.ONLINE;
-    }
-
-    public static boolean isUserBotCommander(Guild guild, User user) {
-        Member member = guild.getMember(user);
-        if (member == null) return false;
-        List<Role> roles = member.getRoles();
-
-        for (Role r : roles) {
-            if (r.getName().equals("Bot Commander")) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static void sendShardlessMessage(String channel, Message msg) {
-        sendShardlessMessage(msg.getJDA(), channel, msg.getContentRaw());
-    }
-
-    public static void sendShardlessMessage(JDA jda, String channel, String content) {
-        JSONObject body = new JSONObject();
-        body.put("content", content);
-        new RestAction<Void>(jda, Route.Messages.SEND_MESSAGE.compile(channel), body) {
-            @Override
-            protected void handleResponse(Response response, Request request) {
-                if (response.isOk())
-                    request.onSuccess(null);
-                else
-                    request.onFailure(response);
-            }
-        }.queue();
-    }
-
-    public static int getRecommendedShardCount(String token) throws UnirestException {
-        return Unirest.get(Requester.DISCORD_API_PREFIX + "gateway/bot")
-                .header("Authorization", "Bot " + token)
-                .header("User-agent", USER_AGENT)
-                .asJson()
-                .getBody()
-                .getObject()
-                .getInt("shards");
-    }
-
-    public static User getUserFromBearer(JDA jda, String token) {
-        try {
-            JSONObject user =  Unirest.get(Requester.DISCORD_API_PREFIX + "/users/@me")
-                    .header("Authorization", "Bearer " + token)
-                    .header("User-agent", USER_AGENT)
-                    .asJson()
-                    .getBody()
-                    .getObject();
-
-            if(user.has("id")){
-                return jda.retrieveUserById(user.getString("id")).complete(true);
-            }
-        } catch (UnirestException | RateLimitedException ignored) {}
-
-        return null;
-    }
-
-    // https://discordapp.com/developers/docs/topics/oauth2
-    @Deprecated
-    public static JSONObject getApplicationInfo(String token) throws UnirestException {
-        return Unirest.get(Requester.DISCORD_API_PREFIX + "/oauth2/applications/@me")
-                .header("Authorization", "Bot " + token)
-                .header("User-agent", USER_AGENT)
-                .asJson()
-                .getBody()
-                .getObject();
-    }
-
 }

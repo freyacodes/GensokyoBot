@@ -80,16 +80,16 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
 
     public void joinChannel(VoiceChannel targetChannel) throws MessagingException {
         if (targetChannel == null) {
-            throw new MessagingException(I18n.get(getGuild()).getString("playerUserNotInChannel"));
+            throw new MessagingException(I18n.get().getString("playerUserNotInChannel"));
         }
 
         if (!PermissionUtil.checkPermission(targetChannel, targetChannel.getGuild().getSelfMember(), Permission.VOICE_CONNECT)
                 && !targetChannel.getMembers().contains(getGuild().getSelfMember())) {
-            throw new MessagingException(I18n.get(getGuild()).getString("playerJoinConnectDenied"));
+            throw new MessagingException(I18n.get().getString("playerJoinConnectDenied"));
         }
 
         if (!PermissionUtil.checkPermission(targetChannel, targetChannel.getGuild().getSelfMember(), Permission.VOICE_SPEAK)) {
-            throw new MessagingException(I18n.get(getGuild()).getString("playerJoinSpeakDenied"));
+            throw new MessagingException(I18n.get().getString("playerJoinSpeakDenied"));
         }
 
         AudioManager manager = getGuild().getAudioManager();
@@ -103,9 +103,9 @@ public class GuildPlayer extends AudioEventAdapter implements AudioSendHandler {
         AudioManager manager = getGuild().getAudioManager();
         if (!silent) {
             if (manager.getConnectedChannel() == null) {
-                channel.sendMessage(I18n.get(getGuild()).getString("playerNotInChannel")).queue();
+                channel.sendMessage(I18n.get().getString("playerNotInChannel")).queue();
             } else {
-                channel.sendMessage(MessageFormat.format(I18n.get(getGuild()).getString("playerLeftChannel"), getChannel().getName())).queue();
+                channel.sendMessage(MessageFormat.format(I18n.get().getString("playerLeftChannel"), getChannel().getName())).queue();
             }
         }
         manager.closeAudioConnection();

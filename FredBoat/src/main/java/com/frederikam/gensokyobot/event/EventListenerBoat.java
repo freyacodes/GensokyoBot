@@ -49,8 +49,7 @@ public class EventListenerBoat extends AbstractEventListener {
     private static HashMap<String, Message> messagesToDeleteIfIdDeleted = new HashMap<>();
     private User lastUserToReceiveHelp;
 
-    public EventListenerBoat() {
-    }
+    public EventListenerBoat() { }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {

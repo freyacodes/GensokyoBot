@@ -58,8 +58,8 @@ public class NowplayingCommand extends Command implements IMusicCommand {
         JSONObject data = XML.toJSONObject(GensokyoInfoAgent.getInfo()).getJSONObject("GENSOKYORADIODATA");
 
         String rating = data.getJSONObject("MISC").getInt("TIMESRATED") == 0 ?
-                I18n.get(channel.getGuild()).getString("noneYet") :
-                MessageFormat.format(I18n.get(channel.getGuild()).getString("npRatingRange"), data.getJSONObject("MISC").getInt("RATING"), data.getJSONObject("MISC").getInt("TIMESRATED"));
+                I18n.get().getString("noneYet") :
+                MessageFormat.format(I18n.get().getString("npRatingRange"), data.getJSONObject("MISC").getInt("RATING"), data.getJSONObject("MISC").getInt("TIMESRATED"));
 
         String albumArt = data.getJSONObject("MISC").getString("ALBUMART").equals("") ?
                 "https://cdn.discordapp.com/attachments/240116420946427905/373019550725177344/gr-logo-placeholder.png" :
@@ -71,16 +71,16 @@ public class NowplayingCommand extends Command implements IMusicCommand {
 
         EmbedBuilder eb = new EmbedBuilder()
                 .setTitle(data.getJSONObject("SONGINFO").getString("TITLE"), titleUrl)
-                .addField(I18n.get(channel.getGuild()).getString("album"), data.getJSONObject("SONGINFO").getString("ALBUM"), true)
-                .addField(I18n.get(channel.getGuild()).getString("artist"), data.getJSONObject("SONGINFO").getString("ARTIST"), true)
-                .addField(I18n.get(channel.getGuild()).getString("circle"), data.getJSONObject("SONGINFO").getString("CIRCLE"), true);
+                .addField(I18n.get().getString("album"), data.getJSONObject("SONGINFO").getString("ALBUM"), true)
+                .addField(I18n.get().getString("artist"), data.getJSONObject("SONGINFO").getString("ARTIST"), true)
+                .addField(I18n.get().getString("circle"), data.getJSONObject("SONGINFO").getString("CIRCLE"), true);
 
         if (data.getJSONObject("SONGINFO").optInt("YEAR") != 0) {
-            eb.addField(I18n.get(channel.getGuild()).getString("year"), Integer.toString(data.getJSONObject("SONGINFO").getInt("YEAR")), true);
+            eb.addField(I18n.get().getString("year"), Integer.toString(data.getJSONObject("SONGINFO").getInt("YEAR")), true);
         }
 
-        eb.addField(I18n.get(channel.getGuild()).getString("rating"), rating, true)
-                .addField(I18n.get(channel.getGuild()).getString("listeners"), Integer.toString(data.getJSONObject("SERVERINFO").getInt("LISTENERS")), true)
+        eb.addField(I18n.get().getString("rating"), rating, true)
+                .addField(I18n.get().getString("listeners"), Integer.toString(data.getJSONObject("SERVERINFO").getInt("LISTENERS")), true)
                 .setImage(albumArt)
                 .setColor(new Color(66, 16, 80))
                 .setFooter("Content provided by gensokyoradio.net.\n" +
@@ -94,6 +94,6 @@ public class NowplayingCommand extends Command implements IMusicCommand {
     @Override
     public String help(Guild guild) {
         String usage = "{0}{1}\n#";
-        return usage + I18n.get(guild).getString("helpNowplayingCommand");
+        return usage + I18n.get().getString("helpNowplayingCommand");
     }
 }

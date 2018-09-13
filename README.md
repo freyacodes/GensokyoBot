@@ -38,8 +38,6 @@ systemctl start gensokyobot
 ,,stats
 #Displays stats about this bot
 ,,shards
-#Displays shards information about this bot
-,,version
 #Displays the version of JDA on this bot
 ,,invite
 #Displays invite link for this bot

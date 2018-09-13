@@ -25,7 +25,6 @@
 
 package com.frederikam.gensokyobot.feature;
 
-import net.dv8tion.jda.core.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,42 +46,22 @@ public class I18n {
         log.info("Loaded " + LANGS.size() + " languages: " + LANGS);
     }
 
-    public static ResourceBundle get(Guild guild) {
+    public static ResourceBundle get() {
         return DEFAULT.getProps();
-    }
-
-    public static FredBoatLocale getLocale(Guild guild) {
-        return DEFAULT;
     }
 
     public static class FredBoatLocale {
 
-        private final Locale locale;
-        private final String code;
         private final ResourceBundle props;
         private final String nativeName;
 
         FredBoatLocale(Locale locale, String code, String nativeName) throws MissingResourceException {
-            this.locale = locale;
-            this.code = code;
             props = ResourceBundle.getBundle("lang." + code, locale);
             this.nativeName = nativeName;
         }
 
-        public Locale getLocale() {
-            return locale;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
         public ResourceBundle getProps() {
             return props;
-        }
-
-        public String getNativeName() {
-            return nativeName;
         }
 
         @Override
@@ -90,11 +69,4 @@ public class I18n {
             return "[" + nativeName + ']';
         }
     }
-
-    public static class LanguageNotSupportedException extends Exception {
-        public LanguageNotSupportedException(String message) {
-            super(message);
-        }
-    }
-
 }

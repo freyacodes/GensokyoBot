@@ -25,11 +25,9 @@
 
 package com.frederikam.gensokyobot.command.util;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.frederikam.gensokyobot.commandmeta.abs.Command;
 import com.frederikam.gensokyobot.commandmeta.abs.IUtilCommand;
 import com.frederikam.gensokyobot.feature.I18n;
-import com.frederikam.gensokyobot.util.DiscordUtil;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -40,18 +38,14 @@ import java.text.MessageFormat;
 public class InviteCommand extends Command implements IUtilCommand {
     @Override
     public void onInvoke(Guild guild, TextChannel channel, Member invoker, Message message, String[] args)  {
-        try {
-            String str = "https://discordapp.com/oauth2/authorize?&client_id=" + DiscordUtil.getApplicationInfo(invoker.getJDA().getToken().substring(4)).getString("id") + "&scope=bot";
-            String send = MessageFormat.format(I18n.get(guild).getString("invite"),DiscordUtil.getApplicationInfo(message.getJDA().getToken().substring(4)).getString("name"));
-            channel.sendMessage(send + "\n" + str).queue();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        String str = "https://discordapp.com/oauth2/authorize?&client_id=" + guild.getJDA().getSelfUser().getId() + "&scope=bot";
+        String send = MessageFormat.format(I18n.get().getString("invite"),guild.getJDA().getSelfUser().getName());
+        channel.sendMessage(send + "\n" + str).queue();
     }
 
     @Override
     public String help(Guild guild) {
         String usage = "{0}{1}\n#";
-        return usage + I18n.get(guild).getString("helpInviteCommand");
+        return usage + I18n.get().getString("helpInviteCommand");
     }
 }

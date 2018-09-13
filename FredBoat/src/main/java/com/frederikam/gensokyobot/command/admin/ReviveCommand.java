@@ -45,7 +45,7 @@ public class ReviveCommand extends Command implements ICommandAdminRestricted {
         int shardId = Integer.parseInt(args[1]);
 
         channel.sendMessage(TextUtils.prefaceWithName(invoker, " Reviving shard " + shardId)).queue();
-        FredBoat.getInstance(shardId).revive();
+        FredBoat.getShardManager().restart(shardId);
     }
 
     @Override

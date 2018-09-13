@@ -52,11 +52,11 @@ public class StatsCommand extends Command implements IMaintenanceCommand {
         int secs = (int) (totalSecs % 60);
         
         String str = MessageFormat.format(
-                I18n.get(guild).getString("statsParagraph"),
+                I18n.get().getString("statsParagraph"),
                 days, hours, mins, secs, CommandManager.commandsExecuted - 1)
                 + "\n";
 
-        str = MessageFormat.format(I18n.get(guild).getString("statsRate"), str, (float) (CommandManager.commandsExecuted - 1) / ((float) totalSecs / (float) (60 * 60)));
+        str = MessageFormat.format(I18n.get().getString("statsRate"), str, (float) (CommandManager.commandsExecuted - 1) / ((float) totalSecs / (float) (60 * 60)));
 
         str = str + "\n\n```";
 
@@ -67,11 +67,11 @@ public class StatsCommand extends Command implements IMaintenanceCommand {
 
         str = str + "\n----------\n\n";
 
-        str = str + "Sharding:                       " + FredBoat.getInstance(guild.getJDA()).getShardInfo().getShardString() + "\n";
+        str = str + "Sharding:                       " + guild.getJDA().getShardInfo().getShardString() + "\n";
         str = str + "Players playing:                " + PlayerRegistry.getPlayingPlayers().size() + "\n";
 
-        str = str + "Known servers:                  " + FredBoat.getAllGuilds().size() + "\n";
-        str = str + "Known users in servers:         " + FredBoat.getAllUsersAsMap().size() + "\n";
+        str = str + "Known servers:                  " + FredBoat.getShardManager().getGuilds().size() + "\n";
+        str = str + "Known users in servers:         " + FredBoat.getShardManager().getUsers().size() + "\n";
         str = str + "Distribution:                   " + Config.CONFIG.getDistribution() + "\n";
         str = str + "JDA responses total:            " + guild.getJDA().getResponseTotal() + "\n";
         str = str + "JDA version:                    " + JDAInfo.VERSION;

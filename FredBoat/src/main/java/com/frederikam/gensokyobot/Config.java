@@ -49,7 +49,7 @@ public class Config {
     
     public static Config CONFIG = null;
 
-    public static String DEFAULT_PREFIX = "--";
+    private static String DEFAULT_PREFIX = "--";
     public static String GENSOKYO_RADIO_STREAM_URL = "https://gensokyoradio.net/GensokyoRadio.m3u";
 
     private final DistributionEnum distribution;
@@ -60,7 +60,7 @@ public class Config {
 
 
     @SuppressWarnings("unchecked")
-    public Config(File credentialsFile, File configFile) {
+    private Config(File credentialsFile, File configFile) {
         try {
             Yaml yaml = new Yaml();
             String credsFileStr = FileUtils.readFileToString(credentialsFile, "UTF-8");
@@ -85,11 +85,11 @@ public class Config {
             log.info("Determined distribution: " + distribution);
 
             token = (String) creds.get("token");
-            numShards = DiscordUtil.getRecommendedShardCount(token);
+            numShards = -1; // Passing this to ShardManager#setShardsTotal will automatically set the recommended shard count
             prefix = (String) config.getOrDefault("prefix", DEFAULT_PREFIX);
             streamUrl = (String) config.getOrDefault("streamUrl", GENSOKYO_RADIO_STREAM_URL);
 
-        } catch (IOException | UnirestException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -148,7 +148,7 @@ public class Config {
         return numShards;
     }
 
-    public String getToken() {
+    String getToken() {
         return token;
     }
 

@@ -38,9 +38,15 @@ import java.text.MessageFormat;
 public class InviteCommand extends Command implements IUtilCommand {
     @Override
     public void onInvoke(Guild guild, TextChannel channel, Member invoker, Message message, String[] args)  {
-        String str = "https://discordapp.com/oauth2/authorize?&client_id=" + guild.getJDA().getSelfUser().getId() + "&scope=bot";
-        String send = MessageFormat.format(I18n.get().getString("invite"),guild.getJDA().getSelfUser().getName());
-        channel.sendMessage(send + "\n" + str).queue();
+        String str = "Want to add GensokyoBot to your server? If you have Manage Server permissions for your guild, you can invite GensokyoBot:\n" +
+                "<https://discordapp.com/oauth2/authorize?&client_id=" + guild.getJDA().getSelfUser().getId() + "&scope=bot>" +
+                "\n\n" +
+                "Need help or have any ideas for GensokyoBot? Perhaps you just want to hang out? Join the FredBoat community!\n" +
+                "https://discord.gg/cgPFW4q" +
+                "\n\n" +
+                "You cannot send GensokyoBot commands through DMs.\n" +
+                "Created by Fre_d and open source contributors";
+        channel.sendMessage(str).queue();
     }
 
     @Override

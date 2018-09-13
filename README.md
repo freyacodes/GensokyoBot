@@ -1,5 +1,5 @@
 # GensokyoBot
-This bot is a fork of FredBoat. Most features of FredBoat have been removed or replaced in favour of offering streaming from a single source.
+This bot is a fork of Frederikam. Most features of FredBoat have been removed or replaced in favour of offering streaming from a single source.
 The bot is optimized in such a way that only one stream is opened to the source.
 
 # Documentation

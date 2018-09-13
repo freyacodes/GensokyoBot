@@ -12,7 +12,7 @@ Installing and running the bot
 sudo apt -y update && apt -y upgrade
 sudo apt -y install maven
 git clone https://github.com/SixAiy/GensokyoBot.git
-cd GensokyoBot/FredBoat
+cd GensokyoBot
 mvn package shade:shade
 mv target/GensokyoBot-1.0.jar /home/YOUR_USER/GensokyoBot
 java -jar GensokyoBot-1.0.jar

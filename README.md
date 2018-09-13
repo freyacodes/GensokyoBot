@@ -20,10 +20,10 @@ java -jar GensokyoBot-1.0.jar
 
 # Service
 ```md
-cp fredboat.service /etc/systemd/system/
+cp gensokyobot.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable fredboat
-systemctl start fredboat
+systemctl enable gensokyobot
+systemctl start gensokyobot
 ```
 
 # Commands

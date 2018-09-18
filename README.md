@@ -2,14 +2,15 @@
 This bot is a fork of FredBoat. Most features of FredBoat have been removed or replaced in favour of offering streaming from a single source.
 The bot is optimized in such a way that only one stream is opened to the source.
 
+# Notice
+Due to a few changes needed inorder to fix issues like shards stats managment I recamend this version for now if you would like to use the Gensokyo Not provided by Frederikam aka Fred himself go [here](https://github.com/Frederikam/GensokyoBot)
+
 # Documentation
 1. Java 10 __JDK__: [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html) or [OpenJDK](http://jdk.java.net/10/)
 2. [Git](https://www.atlassian.com/git/tutorials/install-git)
 3. [JDK added to your PATH](https://www.tutorialspoint.com/maven/maven_environment_setup.htm)
 
 Installing and running the bot
-
-Due to a few changes needed inorder to fix issues like shards stats managment I recamend this version for now if you would like to use the GensokyoBot provided by Frederikam aka Fre_d himself go [here](https://github.com/Frederiham/GensokyoBot)
 ```md
 sudo apt -y update && apt -y upgrade
 sudo apt -y install maven

@@ -8,6 +8,7 @@ The bot is optimized in such a way that only one stream is opened to the source.
 3. [JDK added to your PATH](https://www.tutorialspoint.com/maven/maven_environment_setup.htm)
 
 Installing and running the bot
+
 Due to a few changes needed inorder to fix issues like shards stats managment I recamend this version for now if you would like to use the GensokyoBot provided by Frederikam aka Fre_d himself go [here](https://github.com/Frederiham/GensokyoBot)
 ```md
 sudo apt -y update && apt -y upgrade

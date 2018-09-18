@@ -11,7 +11,7 @@ Installing and running the bot
 ```md
 sudo apt -y update && apt -y upgrade
 sudo apt -y install maven
-git clone https://github.com/Frederikam/GensokyoBot.git
+git clone https://github.com/SixAiy/GensokyoBot.git #due to the version upgrade my version of GensokyoBot is more updated.
 cd GensokyoBot
 mvn package shade:shade
 mv target/GensokyoBot-1.0.jar /home/YOUR_USER/GensokyoBot

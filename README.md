@@ -52,7 +52,7 @@ mv target/GensokyoBot-1.0.jar /home/YOUR_USER/GensokyoBot
 java -jar GensokyoBot-1.0.jar
 ```
 
-# Selfhosting System
+Hosting GensokyoBot with Systemd
 ```md
 cp gensokyobot.service /etc/systemd/system/
 systemctl daemon-reload

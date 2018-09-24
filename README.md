@@ -1,5 +1,5 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
-# GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/SixAiy/GensokyoBot/latest.svg)]() [![Open Source Helpers](https://www.codetriage.com/sixaiy/gensokyobot/badges/users.svg)](https://www.codetriage.com/sixaiy/gensokyobot)[![Twitter Follow](https://img.shields.io/twitter/follow/sixaiy.svg?style=social&label=Follow)]()
+# GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/SixAiy/GensokyoBot/latest.svg)]() [![Crowdin](https://d322cqt584bo4o.cloudfront.net/gensokyobot/localized.svg)](https://crowdin.com/project/gensokyobot) [![Open Source Helpers](https://www.codetriage.com/sixaiy/gensokyobot/badges/users.svg)](https://www.codetriage.com/sixaiy/gensokyobot) [![Twitter Follow](https://img.shields.io/twitter/follow/sixaiy.svg?style=social&label=Follow)]()
 ```md
 Frederiham no longer maintains this bot from his github.
 This bot is a fork of GensokyoBot with upgrades to keep the bot stable.

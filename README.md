@@ -2,32 +2,11 @@
 # GensokyoBot
 Fred no longer supports GensokyoBot on his github page.
 
-This bot is a fork of FredBoat. Most features of FredBoat have been removed or replaced in favour of offering streaming from a single source.
+This bot is a fork of GensokyoBot. 
+With upgrades to keep the bot stable
+GensokyoBot is a Radio Music Bot playing music from [GensokyoRadio.net](https://gensokyoradio.net).
 The bot is optimized in such a way that only one stream is opened to the source.
 
-# Documentation
-1. Java 10 __JDK__: [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html) or [OpenJDK](http://jdk.java.net/10/)
-2. [Git](https://www.atlassian.com/git/tutorials/install-git)
-3. [JDK added to your PATH](https://www.tutorialspoint.com/maven/maven_environment_setup.htm)
-
-Installing and running the bot
-```md
-sudo apt -y update && apt -y upgrade
-sudo apt -y install maven
-git clone https://github.com/SixAiy/GensokyoBot.git
-cd GensokyoBot
-mvn package shade:shade
-mv target/GensokyoBot-1.0.jar /home/YOUR_USER/GensokyoBot
-java -jar GensokyoBot-1.0.jar
-```
-
-# Service
-```md
-cp gensokyobot.service /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable gensokyobot
-systemctl start gensokyobot
-```
 
 # Commands
 ```md
@@ -54,6 +33,30 @@ Source code: https://github.com/Frederikam/GensokyoBot
 Content provided by gensokyoradio.net.
 The GR logo is a trademark of Gensokyo Radio.
 Gensokyo Radio is © LunarSpotlight.
+```
+
+# Selfhosting
+1. Java 10 __JDK__: [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html) or [OpenJDK](http://jdk.java.net/10/)
+2. [Git](https://www.atlassian.com/git/tutorials/install-git)
+3. [JDK added to your PATH](https://www.tutorialspoint.com/maven/maven_environment_setup.htm)
+
+Installing and running the bot
+```md
+sudo apt -y update && apt -y upgrade
+sudo apt -y install maven
+git clone https://github.com/SixAiy/GensokyoBot.git
+cd GensokyoBot
+mvn package shade:shade
+mv target/GensokyoBot-1.0.jar /home/YOUR_USER/GensokyoBot
+java -jar GensokyoBot-1.0.jar
+```
+
+# Selfhosting System
+```md
+cp gensokyobot.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable gensokyobot
+systemctl start gensokyobot
 ```
 
 # Credits

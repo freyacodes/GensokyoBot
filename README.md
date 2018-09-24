@@ -3,7 +3,7 @@ This bot is a fork of FredBoat. Most features of FredBoat have been removed or r
 The bot is optimized in such a way that only one stream is opened to the source.
 
 # Notice
-Due to a few changes needed in order to fix issues like shards stats management I recommend this version for now, if you would like to use the GensokyoBot provided by Frederikam aka Fred himself go [here](https://github.com/Frederikam/GensokyoBot)
+Fred no longer supports GensokyoBot on his github page and there for will not be maintaining it from here on out GensokyoBot will be mainted by me SixAiy (Alyzza Chilcott)
 
 # Documentation
 1. Java 10 __JDK__: [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html) or [OpenJDK](http://jdk.java.net/10/)
@@ -55,3 +55,6 @@ Content provided by gensokyoradio.net.
 The GR logo is a trademark of Gensokyo Radio.
 Gensokyo Radio is © LunarSpotlight.
 ```
+
+# Credits
+Credits to [Frederikham](https://github.com/Frederikam) for the Creation of GensokyoBot

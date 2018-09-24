@@ -1,10 +1,9 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
 # GensokyoBot
+Fred no longer supports GensokyoBot on his github page.
+
 This bot is a fork of FredBoat. Most features of FredBoat have been removed or replaced in favour of offering streaming from a single source.
 The bot is optimized in such a way that only one stream is opened to the source.
-
-# Notice
-Fred no longer supports GensokyoBot on his github page and there for will not be maintaining it from here on out GensokyoBot will be mainted by me SixAiy (Alyzza Chilcott)
 
 # Documentation
 1. Java 10 __JDK__: [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html) or [OpenJDK](http://jdk.java.net/10/)
@@ -58,4 +57,4 @@ Gensokyo Radio is © LunarSpotlight.
 ```
 
 # Credits
-Credits to [Frederikham](https://github.com/Frederikam) for the Creation of GensokyoBot
+Credits to [Frederikham](https://github.com/Frederikam) for the creation of GensokyoBot

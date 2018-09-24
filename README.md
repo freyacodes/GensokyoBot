@@ -1,5 +1,5 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
-# GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/SixAiy/GensokyoBot/latest.svg)]()
+# GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/SixAiy/GensokyoBot/latest.svg)]() [![Open Source Helpers](https://www.codetriage.com/frederikam/fredboat/badges/users.svg)](https://www.codetriage.com/frederikam/fredboat)
 ```md
 Frederiham no longer maintains this bot from his github.
 This bot is a fork of GensokyoBot with upgrades to keep the bot stable.
@@ -7,7 +7,8 @@ This bot is a fork of GensokyoBot with upgrades to keep the bot stable.
 GensokyoBot is a Radio Music Bot playing music from gensokyoradio.net
 The bot is optimized only to play GensokyoRadio Music.
 ```
-
+[![Join FredBoat Hangout](https://discordapp.com/api/guilds/174820236481134592/embed.png?style=banner2)](https://discord.gg/cgPFW4q)
+[![Join Critical Lounge](https://discordapp.com/api/guilds/174820236481134592/embed.png?style=banner2)](https://discord.gg/cgPFW4q)
 # Commands
 ```md
 < Music Commands >

@@ -8,7 +8,7 @@ GensokyoBot is a Radio Music Bot playing music from gensokyoradio.net
 The bot is optimized only to play GensokyoRadio Music.
 ```
 [![Join FredBoat Hangout](https://discordapp.com/api/guilds/174820236481134592/embed.png?style=banner2)](https://discord.gg/cgPFW4q)
-[![Join Critical Lounge](https://discordapp.com/api/guilds/174820236481134592/embed.png?style=banner2)](https://discord.gg/cgPFW4q)
+[![Join Critical Lounge](https://discordapp.com/api/guilds/269896638628102144/embed.png?style=banner2)](https://discord.gg/hHvUqkw)
 # Commands
 ```md
 < Music Commands >

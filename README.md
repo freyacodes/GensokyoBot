@@ -1,12 +1,13 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
 # GensokyoBot
+```
 Fred no longer supports GensokyoBot on his github page.
 
 This bot is a fork of GensokyoBot. 
 With upgrades to keep the bot stable
 GensokyoBot is a Radio Music Bot playing music from [GensokyoRadio.net](https://gensokyoradio.net).
-The bot is optimized in such a way that only one stream is opened to the source.
-
+The bot is optimized only to play GensokyoRadio Music.
+```
 
 # Commands
 ```md

@@ -1,7 +1,7 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
 # GensokyoBot
 ```
-Fred no longer supports GensokyoBot on his github page.
+Frederiham no longer maintains this bot from his github.
 
 This bot is a fork of GensokyoBot. 
 With upgrades to keep the bot stable

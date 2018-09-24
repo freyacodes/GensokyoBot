@@ -1,5 +1,5 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
-# GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/Frederikam/FredBoat/latest.svg)]()
+# GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/SixAiy/GensokyoBot/latest.svg)]()
 ```md
 Frederiham no longer maintains this bot from his github.
 This bot is a fork of GensokyoBot with upgrades to keep the bot stable.

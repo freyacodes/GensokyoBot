@@ -9,7 +9,7 @@ The bot is optimized only to play GensokyoRadio Music.
 
 Pull requests are welcome and please report any issues you find in [issues](https://github.com/SixAiy/GensokyoBot/issues).
 
-FredBoat is licensed under the MIT license, so feel free to copy small or large parts of the code here without having to ask. I would love to see what you can create with it!
+GensokyoBot is licensed under the MIT license, so feel free to copy small or large parts of the code here without having to ask.
 
 [![Join Critical Lounge](https://discordapp.com/api/guilds/269896638628102144/embed.png?style=banner2)](https://discord.gg/hHvUqkw)
 

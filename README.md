@@ -66,4 +66,5 @@ systemctl start gensokyobot
 
 # Credits
 Credits to [Frederikham](https://github.com/Frederikam) for the creation of GensokyoBot
+
 [![Join FredBoat Hangout](https://discordapp.com/api/guilds/174820236481134592/embed.png?style=banner2)](https://discord.gg/cgPFW4q)

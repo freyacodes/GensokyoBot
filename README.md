@@ -4,6 +4,7 @@
 Frederiham no longer maintains this bot from his github. 
 
 I'm currently activly maintaing GensokyoBot.
+
 This bot is a fork of GensokyoBot with upgrades to keep the bot stable.
 
 GensokyoBot is a Radio Music Bot playing music from gensokyoradio.net

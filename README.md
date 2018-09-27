@@ -1,13 +1,13 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
 # GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/SixAiy/GensokyoBot/latest.svg)]() [![Crowdin](https://d322cqt584bo4o.cloudfront.net/gensokyobot/localized.svg)](https://crowdin.com/project/gensokyobot) [![Open Source Helpers](https://www.codetriage.com/sixaiy/gensokyobot/badges/users.svg)](https://www.codetriage.com/sixaiy/gensokyobot) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c6e1a08d9ccd433991f2a6e777c48fce)](https://www.codacy.com/app/SixAiy/GensokyoBot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SixAiy/GensokyoBot&amp;utm_campaign=Badge_Grade) [![Twitter Follow](https://img.shields.io/twitter/follow/sixaiy.svg?style=social&label=Follow)]()
-
+```md
 Frederiham no longer maintains this bot from his github.
 I'm currently activly maintaing GensokyoBot.
 This bot is a fork of GensokyoBot with upgrades to keep the bot stable.
 
 GensokyoBot is a Radio Music Bot playing music from gensokyoradio.net
 The bot is optimized only to play GensokyoRadio Music.
-
+```
 Pull requests are welcome and please report any issues you find in [issues](https://github.com/SixAiy/GensokyoBot/issues).
 
 GensokyoBot is licensed under the MIT license, so feel free to copy small or large parts of the code here without having to ask.

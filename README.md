@@ -1,7 +1,7 @@
 ![GensokyoBot](https://sixaiy.com/images/gb-banner.png)
 # GensokyoBot [![Github commits (since latest release)](https://img.shields.io/github/commits-since/SixAiy/GensokyoBot/latest.svg)]() [![Crowdin](https://d322cqt584bo4o.cloudfront.net/gensokyobot/localized.svg)](https://crowdin.com/project/gensokyobot) [![Open Source Helpers](https://www.codetriage.com/sixaiy/gensokyobot/badges/users.svg)](https://www.codetriage.com/sixaiy/gensokyobot) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c6e1a08d9ccd433991f2a6e777c48fce)](https://www.codacy.com/app/SixAiy/GensokyoBot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SixAiy/GensokyoBot&amp;utm_campaign=Badge_Grade) [![Twitter Follow](https://img.shields.io/twitter/follow/sixaiy.svg?style=social&label=Follow)]()
 ```md
-Frederiham no longer maintains this bot from his github.
+Frederikam no longer maintains this bot from his github.
 I'm currently activly maintaing GensokyoBot.
 This bot is a fork of GensokyoBot with upgrades to keep the bot stable.
 
@@ -34,7 +34,7 @@ GensokyoBot is licensed under the MIT license, so feel free to copy small or lar
 
 
 Invite this bot: https://discordapp.com/oauth2/authorize?&client_id=302857939910131712&scope=bot
-Source code: https://github.com/Frederikam/GensokyoBot
+Source code: https://github.com/SixAiy/GensokyoBot
 
 Content provided by gensokyoradio.net.
 The GR logo is a trademark of Gensokyo Radio.
@@ -66,6 +66,4 @@ systemctl start gensokyobot
 ```
 
 # Credits
-Credits to [Frederikham](https://github.com/Frederikam) for the creation of GensokyoBot
-
-[![Join FredBoat Hangout](https://discordapp.com/api/guilds/174820236481134592/embed.png?style=banner2)](https://discord.gg/cgPFW4q)
+Credits to [Frederikam](https://github.com/Frederikam) for the original creation of GensokyoBot
